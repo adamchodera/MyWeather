@@ -1,0 +1,69 @@
+apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "pl.com.chodera.myweather"
+        minSdkVersion 16
+        targetSdkVersion 22 // do not increase above 22 until we introduce runtime permissions handling!
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    final SUPPORT_LIBRARY_VERSION = '23.2.1'
+    final RETROFIT_LIBRARY_VERSION = '2.0.0-beta4'
+
+    // ui
+    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.3'
+
+    // networking
+    compile "com.squareup.retrofit2:retrofit:$RETROFIT_LIBRARY_VERSION"
+    compile "com.squareup.retrofit2:converter-gson:$RETROFIT_LIBRARY_VERSION"
+    compile 'com.google.code.gson:gson:2.6.1'
+
+    // rx
+    compile 'io.reactivex:rxjava:1.1.1'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile "com.squareup.retrofit2:adapter-rxjava:$RETROFIT_LIBRARY_VERSION"
+
+    // bindings
+    compile 'com.jakewharton:butterknife:7.0.1'
+
+    // location
+    // compile 'com.google.android.gms:play-services-location:8.4.0' // TODO check weather for current location
+}

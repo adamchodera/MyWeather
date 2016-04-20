@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">My Weather</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="chart_data_not_available">Sorry! Chart\'s data is not available</string>
+    <string name="search_title"/>
+    <string name="activity_details_weather_not_found">Weather was not found</string>
+    <string name="activity_details_location_saved_as_favourite">Location was successfully saved as favourite!</string>
+    <string name="activity_details_location_removed_from_favourite">Location removed from favourite list… :(</string>
+    <string name="chart_data_legend">Temperature forecast for next 24h</string>
+    <string name="loading_message">Loading…</string>
+    <string name="tutorial_message">Quick tutorial:\n\n 1.Click search icon\n 2. Input city name\n 3. Confirm with search icon on your keyboard\n 4. Click
+        star icon to save location as favorite</string>
+</resources>
