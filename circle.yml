@@ -1,10 +1,21 @@
 dependencies:
   pre:
-    - echo y | android update sdk --no-ui --all --filter "package-name"
-    - android update sdk --no-ui --all --filter "build-tools-24.0.3"
-    - ./gradlew dependencies
+#    - echo y | android update sdk --no-ui --all --filter "package-name"
+#    - android update sdk --no-ui --all --filter "build-tools-24.0.3"
+#    - ./gradlew dependencies
+    # Android SDK Platform 25
+#    - if [ ! -d "/usr/local/android-sdk-linux/platforms/android-24" ]; then echo y | android update sdk --no-ui --all --filter "android-24"; fi
+    # Android SDK Build-tools, revision 25.0.0
+    - if [ ! -d "/usr/local/android-sdk-linux/build-tools/24.0.3" ]; then echo y | android update sdk --no-ui --all --filter "build-tools-24.0.3"; fi
+    # Android Support Repository, revision 39 / Local Maven repository for Support Libraries
+    - if [ ! -d "/usr/local/android-sdk-linux/extras/android/m2repository/com/android/support/design/24.2.1" ]; then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
     
 test:
   override:
     - ./gradlew assembleRelease
     - cp -r project-name/build/outputs $CIRCLE_ARTIFACTS
+
+cache_directories:
+  - /usr/local/android-sdk-linux/platforms/android-25
+  - /usr/local/android-sdk-linux/build-tools/25.0.0
+  - /usr/local/android-sdk-linux/extras/android/m2repository
