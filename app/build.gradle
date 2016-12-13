@@ -32,6 +32,7 @@ android {
     lintOptions {
         disable 'InvalidPackage'
         abortOnError false
+        ignoreWarnings true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -67,4 +68,6 @@ dependencies {
 
     // location
     // compile 'com.google.android.gms:play-services-location:8.4.0' // TODO check weather for current location
+
+    testCompile 'junit:junit:4.12'
 }
