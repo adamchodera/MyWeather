@@ -60,9 +60,9 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.1'
 
     // rx
-    compile 'io.reactivex:rxjava:1.1.1'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile "com.squareup.retrofit2:adapter-rxjava:$RETROFIT_LIBRARY_VERSION"
+//    compile 'io.reactivex:rxjava:1.1.1'
+//    compile 'io.reactivex:rxandroid:1.1.0'
+//    compile "com.squareup.retrofit2:adapter-rxjava:$RETROFIT_LIBRARY_VERSION"
 
     // bindings
     compile 'com.jakewharton:butterknife:7.0.1'
