@@ -33,7 +33,7 @@ android {
     lintOptions {
         disable 'InvalidPackage'
         abortOnError false
-        ignoreWarnings true
+        ignoreWarnings false
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
