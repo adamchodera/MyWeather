@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.com.chodera.myweather.R;
@@ -25,8 +26,6 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.id_activity_main_tutorial_text_view)
     TextView tutorialTextView;
 
-    private FavoriteLocationsAdapter favoriteLocationsAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,23 +36,20 @@ public class MainActivity extends BaseActivity {
         setupFavoriteLocationsAdapter();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        favoriteLocationsAdapter = new FavoriteLocationsAdapter(this);
-        recyclerView.setAdapter(favoriteLocationsAdapter);
-
-        if (favoriteLocationsAdapter.getItemCount() == 0) {
-            recyclerView.setVisibility(View.GONE);
-            tutorialTextView.setVisibility(View.VISIBLE);
-        }
-    }
-
     private void setupFavoriteLocationsAdapter() {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        FavoriteLocationsAdapter favoriteLocationsAdapter = new FavoriteLocationsAdapter(this);
+
+        if (favoriteLocationsAdapter.getItemCount() == 0) {
+            recyclerView.setVisibility(View.GONE);
+            tutorialTextView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setAdapter(favoriteLocationsAdapter);
+        }
     }
 
     @Override
