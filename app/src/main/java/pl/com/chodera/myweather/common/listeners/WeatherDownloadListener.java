@@ -6,5 +6,6 @@ package pl.com.chodera.myweather.common.listeners;
 public interface WeatherDownloadListener {
 
     void downloadingWeatherFailed();
-    void downloadingWeatherSuccessed(String weatherInfo, String name);
+
+    void downloadingWeatherSucceeded(String weatherInfo, String name);
 }

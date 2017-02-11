@@ -184,7 +184,7 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
     }
 
     @Override
-    public void downloadingWeatherSuccessed(String weatherInfo, String name) {
+    public void downloadingWeatherSucceeded(String weatherInfo, String name) {
         textView.setText(weatherInfo.substring(1, weatherInfo.length()));
 
         locationName = name;
