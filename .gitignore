@@ -40,3 +40,6 @@ captures/
 /captures
 
 .directory
+
+# Private
+/app/fabric.properties
