@@ -3,25 +3,36 @@ package pl.com.chodera.myweather.views;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
+
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
+
 import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.common.Commons;
 import pl.com.chodera.myweather.network.response.WeatherForecastResponse;
 import retrofit2.Response;
+
+import static pl.com.chodera.myweather.common.Commons.CELSIUS_UNIT;
 
 /**
  * Created by Adam Chodera on 2016-03-17.
  */
 public class WeatherLineChart extends LineChart {
 
-    public WeatherLineChart(Context context, AttributeSet attrs) {
+    public WeatherLineChart(final Context context, final AttributeSet attrs) {
         super(context, attrs);
 
         setDragEnabled(false);
@@ -35,13 +46,14 @@ public class WeatherLineChart extends LineChart {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
     }
 
-    public void setForecastDataToChart(Response<WeatherForecastResponse> response) {
+    public void setForecastDataToChart(final Response<WeatherForecastResponse> response) {
         ArrayList<String> xValues = new ArrayList<>();
 
-        String hourShift;
+        int hourShift;
+
         for (int i = 1; i < Commons.CHART_NUMBER_OF_X_VALUES + 1; i++) {
-            hourShift = String.valueOf(i * 3);
-            xValues.add(Commons.Chars.PLUS + hourShift + Commons.Chars.H);
+            hourShift = i * 3;
+            xValues.add(getHour(hourShift));
         }
 
         ArrayList<Entry> yValues = new ArrayList<>();
@@ -74,6 +86,26 @@ public class WeatherLineChart extends LineChart {
             l.setForm(Legend.LegendForm.CIRCLE);
         } catch (NullPointerException e) {
             e.printStackTrace();
+        }
+
+        final TemperatureValueFormatter temperatureValueFormatter = new TemperatureValueFormatter();
+        getAxisLeft().setValueFormatter(temperatureValueFormatter);
+        getAxisRight().setValueFormatter(temperatureValueFormatter);
+    }
+
+    private String getHour(final int hourShift) {
+        final Calendar c = Calendar.getInstance();
+        c.add(Calendar.HOUR, hourShift);
+
+        final SimpleDateFormat df = new SimpleDateFormat("HH", Locale.UK);
+
+        return df.format(c.getTime()) + Commons.Chars.H;
+    }
+
+    private class TemperatureValueFormatter implements YAxisValueFormatter {
+        @Override
+        public String getFormattedValue(final float value, final YAxis yAxis) {
+            return new DecimalFormat("#.##").format(value) + CELSIUS_UNIT;
         }
     }
 }

@@ -1,7 +1,10 @@
-package pl.com.chodera.myweather.common;
+package pl.com.chodera.myweather.adapters;
 
+import pl.com.chodera.myweather.common.Commons;
 import pl.com.chodera.myweather.models.pojo.Main;
 import pl.com.chodera.myweather.network.response.WeatherResponse;
+
+import static pl.com.chodera.myweather.common.Commons.CELSIUS_UNIT;
 
 /**
  * Created by Adam Chodera on 2016-03-15.
@@ -10,10 +13,10 @@ public class WeatherFormatterUtil {
 
     public static String getBaseWeatherInfo(WeatherResponse response) {
         try {
-            Main main = response.getMain();
+            final Main main = response.getMain();
 
-            StringBuilder weatherInfo = new StringBuilder();
-            weatherInfo.append(getFormattedPair("Temperature", main.getTemp())).append((char) 0x00B0).append(Commons.Chars.CELSIUS_UNIT);
+            final StringBuilder weatherInfo = new StringBuilder();
+            weatherInfo.append(getFormattedPair("Temperature", main.getTemp())).append(CELSIUS_UNIT);
             weatherInfo.append(getFormattedPair("Humidity", main.getHumidity())).append(Commons.Chars.PERCENT);
             weatherInfo.append(getFormattedPair("Pressure", main.getPressure())).append(Commons.PASCAL_UNIT);
             return weatherInfo.toString();

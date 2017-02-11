@@ -13,7 +13,6 @@ import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.activities.BaseActivity;
 import pl.com.chodera.myweather.activities.DetailsActivity;
 import pl.com.chodera.myweather.common.Commons;
-import pl.com.chodera.myweather.common.WeatherFormatterUtil;
 import pl.com.chodera.myweather.models.db.FavoriteLocation;
 import pl.com.chodera.myweather.network.DownloadingUtil;
 import pl.com.chodera.myweather.network.response.WeatherResponse;

@@ -13,14 +13,13 @@ public interface Commons {
 
     String PASCAL_UNIT = "hPa";
 
-    interface Chars {
+    String CELSIUS_UNIT = "°C";
 
+    interface Chars {
         char SPACE = ' ';
         char COLON = ':';
         String NEW_LINE = System.getProperty("line.separator");
-        char PLUS = '+';
         char H = 'h';
-        char CELSIUS_UNIT = 'C';
         char PERCENT = '%';
     }
 
