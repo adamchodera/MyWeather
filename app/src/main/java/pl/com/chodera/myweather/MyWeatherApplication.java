@@ -14,9 +14,9 @@ public class MyWeatherApplication extends Application {
         super.onCreate();
         if (BuildConfig.DEBUG) {
             startLeakCanary();
+        } else {
+            Fabric.with(this, new Crashlytics());
         }
-
-        Fabric.with(this, new Crashlytics());
     }
 
     private void startLeakCanary() {
