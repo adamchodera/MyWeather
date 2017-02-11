@@ -1,6 +1,7 @@
 package pl.com.chodera.myweather.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,11 +21,16 @@ import pl.com.chodera.myweather.common.listeners.WeatherSearchViewListener;
 
 public class MainActivity extends BaseActivity {
 
+    @Bind(R.id.id_activity_main_coordinator_layout)
+    CoordinatorLayout coordinatorLayout;
+
     @Bind(R.id.id_activity_main_recycler_view)
     RecyclerView recyclerView;
 
     @Bind(R.id.id_activity_main_tutorial_text_view)
     TextView tutorialTextView;
+
+    private FavoriteLocationsAdapter favoriteLocationsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,22 +43,6 @@ public class MainActivity extends BaseActivity {
         setupFavoriteLocationsAdapter();
     }
 
-    private void setupFavoriteLocationsAdapter() {
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        FavoriteLocationsAdapter favoriteLocationsAdapter = new FavoriteLocationsAdapter(this);
-
-        if (favoriteLocationsAdapter.getItemCount() == 0) {
-            recyclerView.setVisibility(View.GONE);
-            tutorialTextView.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setAdapter(favoriteLocationsAdapter);
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -62,5 +52,35 @@ public class MainActivity extends BaseActivity {
         searchView.setOnQueryTextListener(new WeatherSearchViewListener(this));
 
         return true;
+    }
+
+    @Override
+    protected View getCoordinatorLayoutView() {
+        return coordinatorLayout;
+    }
+
+    @Override
+    protected void internetIsAvailableAgain() {
+        fetchAndDisplayWeatherForFavorites();
+    }
+
+    private void setupFavoriteLocationsAdapter() {
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        fetchAndDisplayWeatherForFavorites();
+    }
+
+    private void fetchAndDisplayWeatherForFavorites() {
+        favoriteLocationsAdapter = new FavoriteLocationsAdapter(this);
+
+        if (favoriteLocationsAdapter.getItemCount() == 0) {
+            recyclerView.setVisibility(View.GONE);
+            tutorialTextView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setAdapter(favoriteLocationsAdapter);
+        }
     }
 }

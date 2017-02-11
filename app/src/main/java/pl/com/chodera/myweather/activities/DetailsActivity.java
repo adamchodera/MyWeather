@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -27,6 +29,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailsActivity extends BaseActivity implements WeatherDownloadListener {
+
+    @Bind(R.id.id_activity_details_coordinator_layout)
+    public CoordinatorLayout coordinatorLayout;
 
     @Bind(R.id.toolbar_layout)
     public CollapsingToolbarLayout collapsingToolbarLayout;
@@ -189,5 +194,15 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
         setFavButtonIcon();
 
         getForecastData();
+    }
+
+    @Override
+    protected View getCoordinatorLayoutView() {
+        return coordinatorLayout;
+    }
+
+    @Override
+    protected void internetIsAvailableAgain() {
+        DownloadingUtil.getWeather(locationName, new HandleWeatherResponse(this));
     }
 }

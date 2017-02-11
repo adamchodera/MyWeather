@@ -24,8 +24,7 @@ import retrofit2.Response;
 /**
  * Created by Adam Chodera on 2016-03-17.
  */
-public class FavoriteLocationsAdapter extends
-        RecyclerView.Adapter<FavoriteLocationsAdapter.ViewHolder> {
+public class FavoriteLocationsAdapter extends RecyclerView.Adapter<FavoriteLocationsAdapter.ViewHolder> {
 
     private final Context context;
 
@@ -67,7 +66,7 @@ public class FavoriteLocationsAdapter extends
         }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final CardView cardView;
 

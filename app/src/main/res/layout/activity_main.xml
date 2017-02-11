@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/backgroundForCards"
-                tools:context=".activities.MainActivity">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/id_activity_main_coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundForCards"
+    tools:context=".activities.MainActivity">
 
     <android.support.v7.widget.RecyclerView
-            android:id="@+id/id_activity_main_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:id="@+id/id_activity_main_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <TextView
-            android:layout_width="match_parent"
-            android:visibility="invisible"
-            android:lineSpacingExtra="@dimen/tutorial_message_spacing_extra"
-            android:textSize="@dimen/tutorial_message_size"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:text="@string/tutorial_message"
-            android:id="@+id/id_activity_main_tutorial_text_view"
-            android:layout_height="match_parent"/>
-</RelativeLayout>
+        android:id="@+id/id_activity_main_tutorial_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:lineSpacingExtra="@dimen/tutorial_message_spacing_extra"
+        android:text="@string/tutorial_message"
+        android:textSize="@dimen/tutorial_message_size"
+        android:visibility="invisible"/>
+</android.support.design.widget.CoordinatorLayout>
