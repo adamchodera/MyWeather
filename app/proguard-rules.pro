@@ -69,3 +69,5 @@
     @butterknife.* <methods>;
 }
 
+# Charts
+-keep class com.github.mikephil.charting.** { *; }
