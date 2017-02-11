@@ -26,7 +26,7 @@ public class HandleWeatherResponse implements Callback<WeatherResponse> {
             return;
         }
 
-        String weatherInfo = WeatherFormatterUtil.getBaseWeatherInfo(weatherResponse);
+        final String weatherInfo = WeatherFormatterUtil.getBaseWeatherInfo(weatherResponse);
         if (weatherInfo.length() > 0) {
             weatherDownloadListener.downloadingWeatherSuccessed(weatherInfo, weatherResponse.getName());
         } else {

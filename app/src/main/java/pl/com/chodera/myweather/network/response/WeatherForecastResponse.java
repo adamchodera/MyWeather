@@ -1,16 +1,22 @@
 package pl.com.chodera.myweather.network.response;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 import pl.com.chodera.myweather.models.pojo.Clouds;
 
 public class WeatherForecastResponse {
 
-    private Clouds clouds;
-
+    @SerializedName("id")
     private String id;
 
+    @SerializedName("clouds")
+    private Clouds clouds;
+
+    @SerializedName("name")
     private String name;
 
+    @SerializedName("list")
     private List<WeatherResponse> list;
 
     public String getId() {

@@ -16,13 +16,18 @@
 
 package pl.com.chodera.myweather.models.pojo;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Main {
 
-    String humidity = "";
+    @SerializedName("humidity")
+    private String humidity;
 
-    String pressure = "";
+    @SerializedName("pressure")
+    private String pressure;
 
-    String temp = "";
+    @SerializedName("temp")
+    private String temp;
 
     public String getHumidity() {
         return humidity;
