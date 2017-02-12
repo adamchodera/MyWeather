@@ -131,7 +131,7 @@ public class WeatherLineChart extends LineChart {
         }
 
         private String getValueFormatted(final float value) {
-            return new DecimalFormat("#.##").format(value) + CELSIUS_UNIT;
+            return new DecimalFormat("#.#").format(value) + CELSIUS_UNIT;
         }
     }
 }

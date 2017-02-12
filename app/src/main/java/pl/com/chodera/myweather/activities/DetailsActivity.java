@@ -78,6 +78,8 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
         setActivityTitle(getString(R.string.loading_message));
         // TODO get data from the list if available
         DownloadingUtil.getWeather(locationName, new HandleWeatherResponse(this));
+
+        getForecastData();
     }
 
     private void checkIsLocationSavedAsFavourite() {
@@ -135,22 +137,6 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
 
         Snackbar.make(floatingActionButton, message, Snackbar.LENGTH_LONG).show();
     }
-    //
-    //    @Override
-    //    public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-    //
-    //
-    //        textView.setText(weatherInfo.substring(1, weatherInfo.length()));
-    //
-    //
-    //        locationName = response.body().getName();
-    //        setActivityTitle(locationName);
-    //        checkIsLocationSavedAsFavourite();
-    //        setupFavButtonAction();
-    //        setFavButtonIcon();
-    //
-    //        getForecastData();
-    //    }
 
     private void setTitleWeatherNotFound() {
         textView.setText(getString(R.string.activity_details_weather_not_found));
@@ -192,8 +178,6 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
         checkIsLocationSavedAsFavourite();
         setupFavButtonAction();
         setFavButtonIcon();
-
-        getForecastData();
     }
 
     @Override
