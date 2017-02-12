@@ -26,6 +26,7 @@ import java.util.Locale;
 import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.common.Commons;
 import pl.com.chodera.myweather.network.response.WeatherForecastResponse;
+import pl.com.chodera.myweather.network.response.WeatherResponse;
 import retrofit2.Response;
 
 import static pl.com.chodera.myweather.common.Commons.CELSIUS_UNIT;
@@ -53,7 +54,6 @@ public class WeatherLineChart extends LineChart {
 
         final Legend l = getLegend();
         l.setForm(Legend.LegendForm.CIRCLE);
-        l.setFormToTextSpace(40);
     }
 
     public void setForecastDataToChart(final Response<WeatherForecastResponse> response) {
@@ -72,8 +72,9 @@ public class WeatherLineChart extends LineChart {
         final ArrayList<String> xValues = new ArrayList<>();
 
         int hourShift;
+        int multiplier = Commons.FORECAST_FOR_NEXT_NUMBER_OF_HOURS / Commons.CHART_NUMBER_OF_X_VALUES;
         for (int i = 0; i < Commons.CHART_NUMBER_OF_X_VALUES; i++) {
-            hourShift = i * 3;
+            hourShift = i * multiplier;
             xValues.add(getHourFormatted(hourShift));
         }
         return xValues;
@@ -81,14 +82,15 @@ public class WeatherLineChart extends LineChart {
 
     private ArrayList<ILineDataSet> getYDataSets(final Response<WeatherForecastResponse> response) {
         final ArrayList<Entry> yValues = new ArrayList<>();
+        final List<WeatherResponse> weatherForecastList = response.body().getWeatherForecastList();
 
-        if (response.body().getWeatherForecastList() == null
-                || Commons.CHART_NUMBER_OF_X_VALUES > response.body().getWeatherForecastList().size()) {
+        if (weatherForecastList == null || Commons.CHART_NUMBER_OF_X_VALUES > weatherForecastList.size()) {
             return null;
         }
+
         String tmpTemp;
         for (int i = 0; i < Commons.CHART_NUMBER_OF_X_VALUES; i++) {
-            tmpTemp = (response.body().getWeatherForecastList().get(i).getMain().getTemp());
+            tmpTemp = (weatherForecastList.get(i).getMain().getTemp());
             yValues.add(new Entry(Float.parseFloat(tmpTemp), i));
         }
 
@@ -136,7 +138,7 @@ public class WeatherLineChart extends LineChart {
         }
 
         private String getValueFormatted(final float value) {
-            return new DecimalFormat("#.#").format(value) + CELSIUS_UNIT;
+            return new DecimalFormat("#.#").format(value) + CELSIUS_UNIT + Commons.Chars.SPACE + Commons.Chars.SPACE;
         }
     }
 }

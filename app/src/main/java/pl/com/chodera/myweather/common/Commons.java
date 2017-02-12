@@ -11,8 +11,9 @@ public interface Commons {
 
     int CHART_NUMBER_OF_X_VALUES = 8;
 
-    String PASCAL_UNIT = "hPa";
+    int FORECAST_FOR_NEXT_NUMBER_OF_HOURS = 24;
 
+    String PASCAL_UNIT = "hPa";
     String CELSIUS_UNIT = "°C";
 
     interface Chars {
@@ -21,6 +22,7 @@ public interface Commons {
         String NEW_LINE = System.getProperty("line.separator");
         char H = 'h';
         char PERCENT = '%';
+        char ZERO = '0';
     }
 
     interface IntentKeys {
