@@ -81,6 +81,8 @@ public class MainActivity extends BaseActivity {
             recyclerView.setVisibility(View.GONE);
             tutorialTextView.setVisibility(View.VISIBLE);
         } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            tutorialTextView.setVisibility(View.GONE);
             recyclerView.setAdapter(favoriteLocationsAdapter);
         }
     }
