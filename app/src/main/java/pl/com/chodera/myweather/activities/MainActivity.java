@@ -30,8 +30,6 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.id_activity_main_tutorial_text_view)
     TextView tutorialTextView;
 
-    private FavoriteLocationsAdapter favoriteLocationsAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +37,6 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         changeToWithLogoNavigationMode();
-
         setupFavoriteLocationsAdapter();
     }
 
@@ -52,6 +49,12 @@ public class MainActivity extends BaseActivity {
         searchView.setOnQueryTextListener(new WeatherSearchViewListener(this));
 
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchAndDisplayWeatherForFavorites();
     }
 
     @Override
@@ -69,12 +72,10 @@ public class MainActivity extends BaseActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        fetchAndDisplayWeatherForFavorites();
     }
 
     private void fetchAndDisplayWeatherForFavorites() {
-        favoriteLocationsAdapter = new FavoriteLocationsAdapter(this);
+        final FavoriteLocationsAdapter favoriteLocationsAdapter = new FavoriteLocationsAdapter(this);
 
         if (favoriteLocationsAdapter.getItemCount() == 0) {
             recyclerView.setVisibility(View.GONE);
