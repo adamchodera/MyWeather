@@ -18,7 +18,7 @@ import pl.com.chodera.myweather.common.NetworkReceiver;
  */
 public abstract class BaseActivity extends AppCompatActivity implements NetworkReceiver.NetworkStateChangeListener {
 
-    protected boolean previousInternetAvailability;
+    protected boolean previousInternetAvailability = true;
 
     private Realm realmInstance;
     private Snackbar snackbar;
