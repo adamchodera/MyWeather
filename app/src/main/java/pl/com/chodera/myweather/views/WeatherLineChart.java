@@ -45,14 +45,15 @@ public class WeatherLineChart extends LineChart {
         setDescription("");
         setNoDataTextDescription(context.getString(R.string.chart_data_not_available));
 
-        XAxis xAxis = getXAxis();
+        final XAxis xAxis = getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         final TemperatureValueFormatter temperatureValueFormatter = new TemperatureValueFormatter();
         getAxisLeft().setValueFormatter(temperatureValueFormatter);
         getAxisRight().setEnabled(false);
 
-        Legend l = getLegend();
+        final Legend l = getLegend();
         l.setForm(Legend.LegendForm.CIRCLE);
+        l.setFormToTextSpace(40);
     }
 
     public void setForecastDataToChart(final Response<WeatherForecastResponse> response) {
@@ -68,24 +69,14 @@ public class WeatherLineChart extends LineChart {
     }
 
     private List<String> getXValues() {
-        ArrayList<String> xValues = new ArrayList<>();
+        final ArrayList<String> xValues = new ArrayList<>();
 
         int hourShift;
-
-        for (int i = 1; i < Commons.CHART_NUMBER_OF_X_VALUES + 1; i++) {
+        for (int i = 0; i < Commons.CHART_NUMBER_OF_X_VALUES; i++) {
             hourShift = i * 3;
             xValues.add(getHourFormatted(hourShift));
         }
         return xValues;
-    }
-
-    private String getHourFormatted(final int hourShift) {
-        final Calendar c = Calendar.getInstance();
-        c.add(Calendar.HOUR, hourShift);
-
-        final SimpleDateFormat df = new SimpleDateFormat("HH", Locale.UK);
-
-        return df.format(c.getTime()) + Commons.Chars.H;
     }
 
     private ArrayList<ILineDataSet> getYDataSets(final Response<WeatherForecastResponse> response) {
@@ -116,6 +107,20 @@ public class WeatherLineChart extends LineChart {
         final ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
         return dataSets;
+    }
+
+    private String getHourFormatted(final int hourShift) {
+        final Calendar c = Calendar.getInstance();
+        c.add(Calendar.HOUR, hourShift);
+
+        final SimpleDateFormat df = new SimpleDateFormat("HH", Locale.UK);
+        String hourFormatted = df.format(c.getTime()) + Commons.Chars.H;
+        if (hourFormatted.charAt(0) == Commons.Chars.ZERO) {
+            // convert eg. 01h into 1h for better readability
+            hourFormatted = hourFormatted.substring(1, hourFormatted.length());
+        }
+
+        return hourFormatted;
     }
 
     private class TemperatureValueFormatter implements ValueFormatter, YAxisValueFormatter {
