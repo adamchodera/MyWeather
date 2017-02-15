@@ -1,4 +1,4 @@
-package pl.com.chodera.myweather.views;
+package pl.com.chodera.myweather.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -73,7 +73,7 @@ public class WeatherLineChart extends LineChart {
 
         int hourShift;
         int multiplier = Commons.FORECAST_FOR_NEXT_NUMBER_OF_HOURS / Commons.CHART_NUMBER_OF_X_VALUES;
-        for (int i = 0; i < Commons.CHART_NUMBER_OF_X_VALUES; i++) {
+        for (int i = 1; i < Commons.CHART_NUMBER_OF_X_VALUES + 1; i++) {
             hourShift = i * multiplier;
             xValues.add(getHourFormatted(hourShift));
         }

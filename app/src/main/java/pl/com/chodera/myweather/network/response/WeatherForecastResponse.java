@@ -1,9 +1,9 @@
 package pl.com.chodera.myweather.network.response;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
-import pl.com.chodera.myweather.models.pojo.Clouds;
+
+import com.google.gson.annotations.SerializedName;
+import pl.com.chodera.myweather.model.pojo.Clouds;
 
 public class WeatherForecastResponse {
 

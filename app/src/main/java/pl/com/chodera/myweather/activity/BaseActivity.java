@@ -1,4 +1,4 @@
-package pl.com.chodera.myweather.activities;
+package pl.com.chodera.myweather.activity;
 
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;

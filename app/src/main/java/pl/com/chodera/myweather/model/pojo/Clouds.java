@@ -1,4 +1,4 @@
-package pl.com.chodera.myweather.models.pojo;
+package pl.com.chodera.myweather.model.pojo;
 
 import com.google.gson.annotations.SerializedName;
 

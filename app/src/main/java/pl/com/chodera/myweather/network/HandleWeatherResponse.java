@@ -1,6 +1,6 @@
 package pl.com.chodera.myweather.network;
 
-import pl.com.chodera.myweather.adapters.WeatherFormatterUtil;
+import pl.com.chodera.myweather.adapter.WeatherFormatterUtil;
 import pl.com.chodera.myweather.common.listeners.WeatherDownloadListener;
 import pl.com.chodera.myweather.network.response.WeatherResponse;
 import retrofit2.Call;

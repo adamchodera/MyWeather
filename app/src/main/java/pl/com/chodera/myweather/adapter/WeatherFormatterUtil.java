@@ -1,7 +1,7 @@
-package pl.com.chodera.myweather.adapters;
+package pl.com.chodera.myweather.adapter;
 
 import pl.com.chodera.myweather.common.Commons;
-import pl.com.chodera.myweather.models.pojo.Main;
+import pl.com.chodera.myweather.model.pojo.Main;
 import pl.com.chodera.myweather.network.response.WeatherResponse;
 
 import static pl.com.chodera.myweather.common.Commons.CELSIUS_UNIT;

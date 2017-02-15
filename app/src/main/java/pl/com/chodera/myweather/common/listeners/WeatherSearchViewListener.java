@@ -2,7 +2,7 @@ package pl.com.chodera.myweather.common.listeners;
 
 import android.content.Context;
 import android.support.v7.widget.SearchView;
-import pl.com.chodera.myweather.activities.DetailsActivity;
+import pl.com.chodera.myweather.activity.DetailsActivity;
 
 /**
  * Created by Adam Chodera on 2016-03-17.

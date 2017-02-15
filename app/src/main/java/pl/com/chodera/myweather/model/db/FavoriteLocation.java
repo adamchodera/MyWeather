@@ -1,4 +1,4 @@
-package pl.com.chodera.myweather.models.db;
+package pl.com.chodera.myweather.model.db;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

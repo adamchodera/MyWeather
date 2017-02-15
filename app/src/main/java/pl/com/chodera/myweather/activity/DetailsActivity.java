@@ -1,4 +1,4 @@
-package pl.com.chodera.myweather.activities;
+package pl.com.chodera.myweather.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,11 +19,11 @@ import io.realm.RealmResults;
 import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.common.Commons;
 import pl.com.chodera.myweather.common.listeners.WeatherDownloadListener;
-import pl.com.chodera.myweather.models.db.FavoriteLocation;
+import pl.com.chodera.myweather.model.db.FavoriteLocation;
 import pl.com.chodera.myweather.network.DownloadingUtil;
 import pl.com.chodera.myweather.network.HandleWeatherResponse;
 import pl.com.chodera.myweather.network.response.WeatherForecastResponse;
-import pl.com.chodera.myweather.views.WeatherLineChart;
+import pl.com.chodera.myweather.view.WeatherLineChart;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

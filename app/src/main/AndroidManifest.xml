@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
 
-        <activity android:name=".activities.MainActivity"
+        <activity android:name=".activity.MainActivity"
                   android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,9 +24,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.DetailsActivity"
+            android:name=".activity.DetailsActivity"
             android:label="@string/title_activity_scrolling"
-            android:parentActivityName=".activities.MainActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data

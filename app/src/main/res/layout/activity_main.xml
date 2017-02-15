@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundForCards"
-    tools:context=".activities.MainActivity">
+    tools:context=".activity.MainActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/id_activity_main_recycler_view"
