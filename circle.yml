@@ -6,9 +6,6 @@ machine:
 
 dependencies:
   pre:
-#    - echo y | android update sdk --no-ui --all --filter "package-name"
-#    - android update sdk --no-ui --all --filter "build-tools-24.0.3"
-#    - ./gradlew dependencies
     # Android SDK Platform
     - if [ ! -d "/usr/local/android-sdk-linux/platforms/android-25" ]; then echo y | android update sdk --no-ui --all --filter "android-25"; fi
     # Android SDK Build-tools
@@ -24,4 +21,3 @@ test:
   override:
     - ./gradlew assembleRelease
     - cp -r app/build/outputs $CIRCLE_ARTIFACTS
-
