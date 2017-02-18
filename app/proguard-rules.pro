@@ -71,3 +71,9 @@
 
 # Charts
 -keep class com.github.mikephil.charting.** { *; }
+
+# Crashlytics
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
