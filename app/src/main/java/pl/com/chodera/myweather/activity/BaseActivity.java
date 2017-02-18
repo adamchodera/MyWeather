@@ -10,6 +10,7 @@ import android.view.View;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmObjectSchema;
 import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.common.NetworkReceiver;
 
@@ -44,7 +45,8 @@ public abstract class BaseActivity extends AppCompatActivity implements NetworkR
     public Realm getRealmInstance() {
         if (realmInstance == null || realmInstance.isClosed()) {
 
-            final RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
+            Realm.init(this);
+            final RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
             realmInstance = Realm.getInstance(realmConfiguration);
         }
 

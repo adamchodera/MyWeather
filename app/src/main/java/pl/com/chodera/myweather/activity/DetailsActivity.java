@@ -107,7 +107,7 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
 
         if (isLocationFavorite) {
             if (favoriteLocation != null) {
-                favoriteLocation.removeFromRealm();
+                favoriteLocation.deleteFromRealm();
             }
         } else {
             FavoriteLocation newFavoriteLocation = getRealmInstance().createObject(FavoriteLocation.class);
