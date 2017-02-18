@@ -110,8 +110,7 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
                 favoriteLocation.deleteFromRealm();
             }
         } else {
-            FavoriteLocation newFavoriteLocation = getRealmInstance().createObject(FavoriteLocation.class);
-            newFavoriteLocation.setName(locationName);
+            FavoriteLocation newFavoriteLocation = new FavoriteLocation(locationName);
             getRealmInstance().copyToRealm(newFavoriteLocation);
             favoriteLocation = newFavoriteLocation;
         }

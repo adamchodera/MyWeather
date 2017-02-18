@@ -13,11 +13,14 @@ public class FavoriteLocation extends RealmObject {
     @PrimaryKey
     private String name;
 
-    public String getName() {
-        return name;
+    public FavoriteLocation() {
     }
 
-    public void setName(String name) {
+    public FavoriteLocation(final String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }
