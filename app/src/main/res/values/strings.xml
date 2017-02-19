@@ -9,9 +9,10 @@
     <string name="activity_details_location_removed_from_favourite">Location removed from favourite list… :(</string>
     <string name="chart_data_legend">Temperature forecast for next 24h</string>
     <string name="loading_message">Loading…</string>
-    <string name="tutorial_message">Quick tutorial:\n\n 1.Click search icon\n 2. Input city name\n 3. Confirm with search icon on your keyboard\n 4. Click
+    <string name="tutorial_message">Quick tutorial:\n\n 1. Click search icon\n 2. Input city name\n 3. Confirm with search icon on your keyboard\n 4. Click
         star icon to save location as favorite</string>
     <string name="no_internet_connection">Internet connection is not available. \nPlease enable WiFi or mobile data to
         use
         the app.</string>
+    <string name="activity_details_current_weather_label">Current weather</string>
 </resources>

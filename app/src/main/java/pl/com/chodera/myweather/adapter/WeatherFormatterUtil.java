@@ -11,13 +11,15 @@ import static pl.com.chodera.myweather.common.Commons.CELSIUS_UNIT;
  */
 public class WeatherFormatterUtil {
 
-    public static String getBaseWeatherInfo(WeatherResponse response) {
+    public static String getBaseWeatherInfo(final WeatherResponse response) {
         try {
             final Main main = response.getMain();
 
             final StringBuilder weatherInfo = new StringBuilder();
             weatherInfo.append(getFormattedPair("Temperature", main.getTemp())).append(CELSIUS_UNIT);
+            weatherInfo.append(Commons.Chars.NEW_LINE);
             weatherInfo.append(getFormattedPair("Humidity", main.getHumidity())).append(Commons.Chars.PERCENT);
+            weatherInfo.append(Commons.Chars.NEW_LINE);
             weatherInfo.append(getFormattedPair("Pressure", main.getPressure())).append(Commons.PASCAL_UNIT);
             return weatherInfo.toString();
         } catch (NullPointerException e) {
@@ -25,7 +27,7 @@ public class WeatherFormatterUtil {
         }
     }
 
-    private static String getFormattedPair(String label, String value) {
-        return Commons.Chars.NEW_LINE + label + Commons.Chars.COLON + Commons.Chars.SPACE + value + Commons.Chars.SPACE;
+    private static String getFormattedPair(final String label, final String value) {
+        return label + Commons.Chars.COLON + Commons.Chars.SPACE + value + Commons.Chars.SPACE;
     }
 }

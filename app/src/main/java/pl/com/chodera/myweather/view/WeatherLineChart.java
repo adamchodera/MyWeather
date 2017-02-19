@@ -49,10 +49,11 @@ public class WeatherLineChart extends LineChart {
         final XAxis xAxis = getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         final TemperatureValueFormatter temperatureValueFormatter = new TemperatureValueFormatter();
-        getAxisLeft().setValueFormatter(temperatureValueFormatter);
-        getAxisRight().setEnabled(false);
+        getAxisRight().setValueFormatter(temperatureValueFormatter);
+        getAxisLeft().setEnabled(false);
 
         final Legend l = getLegend();
+        l.setPosition(Legend.LegendPosition.ABOVE_CHART_LEFT);
         l.setForm(Legend.LegendForm.CIRCLE);
     }
 

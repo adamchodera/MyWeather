@@ -3,6 +3,7 @@ package pl.com.chodera.myweather.activity;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,8 +27,8 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.id_activity_main_recycler_view)
     RecyclerView recyclerView;
 
-    @Bind(R.id.id_activity_main_tutorial_text_view)
-    TextView tutorialTextView;
+    @Bind(R.id.id_activity_main_tutorial_card_view)
+    CardView tutorialCardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +79,10 @@ public class MainActivity extends BaseActivity {
 
         if (favoriteLocationsAdapter.getItemCount() == 0) {
             recyclerView.setVisibility(View.GONE);
-            tutorialTextView.setVisibility(View.VISIBLE);
+            tutorialCardView.setVisibility(View.VISIBLE);
         } else {
             recyclerView.setVisibility(View.VISIBLE);
-            tutorialTextView.setVisibility(View.GONE);
+            tutorialCardView.setVisibility(View.GONE);
             recyclerView.setAdapter(favoriteLocationsAdapter);
         }
     }

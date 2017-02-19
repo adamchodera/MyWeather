@@ -36,8 +36,11 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
     @Bind(R.id.toolbar_layout)
     public CollapsingToolbarLayout collapsingToolbarLayout;
 
-    @Bind(R.id.item_current_weather_text)
-    public TextView textView;
+    @Bind(R.id.item_primary_text)
+    public TextView currentWeatherLabel;
+
+    @Bind(R.id.item_current_weather_info)
+    public TextView currentWeatherInfo;
 
     @Bind(R.id.toolbar)
     public Toolbar toolbar;
@@ -67,19 +70,25 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
 
+        locationName = getIntent().getStringExtra(Commons.IntentKeys.LOCATION_NAME);
+
+        setupView();
+
+        // TODO get data from the list if available
+        DownloadingUtil.getWeather(locationName, new HandleWeatherResponse(this));
+
+        getForecastData();
+    }
+
+    private void setupView() {
         setSupportActionBar(toolbar);
         changeToBackNavigationMode();
-
-        locationName = getIntent().getStringExtra(Commons.IntentKeys.LOCATION_NAME);
 
         checkIsLocationSavedAsFavourite();
         setFavButtonIcon();
 
         setActivityTitle(getString(R.string.loading_message));
-        // TODO get data from the list if available
-        DownloadingUtil.getWeather(locationName, new HandleWeatherResponse(this));
-
-        getForecastData();
+        currentWeatherLabel.setText(R.string.activity_details_current_weather_label);
     }
 
     private void checkIsLocationSavedAsFavourite() {
@@ -138,18 +147,22 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
     }
 
     private void setTitleWeatherNotFound() {
-        textView.setText(getString(R.string.activity_details_weather_not_found));
+        currentWeatherInfo.setText(getString(R.string.activity_details_weather_not_found));
     }
 
     private void getForecastData() {
         DownloadingUtil.getForecastWeather(locationName, new Callback<WeatherForecastResponse>() {
             @Override
             public void onResponse(Call<WeatherForecastResponse> call, Response<WeatherForecastResponse> response) {
-                drawChart(response);
+                chart.setVisibility(View.VISIBLE);
+                if (response.isSuccessful()) {
+                    drawChart(response);
+                }
             }
 
             @Override
             public void onFailure(Call<WeatherForecastResponse> call, Throwable t) {
+                chart.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -170,7 +183,7 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
 
     @Override
     public void downloadingWeatherSucceeded(String weatherInfo, String name) {
-        textView.setText(weatherInfo.substring(1, weatherInfo.length()));
+        currentWeatherInfo.setText(weatherInfo);
 
         locationName = name;
         setActivityTitle(locationName);

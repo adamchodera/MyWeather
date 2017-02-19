@@ -12,7 +12,6 @@ import io.realm.RealmResults;
 import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.activity.BaseActivity;
 import pl.com.chodera.myweather.activity.DetailsActivity;
-import pl.com.chodera.myweather.common.Commons;
 import pl.com.chodera.myweather.model.db.FavoriteLocation;
 import pl.com.chodera.myweather.network.DownloadingUtil;
 import pl.com.chodera.myweather.network.response.WeatherResponse;
@@ -49,7 +48,7 @@ public class FavoriteLocationsAdapter extends RecyclerView.Adapter<FavoriteLocat
         FavoriteLocation favoriteLocation = favoriteLocations.get(position);
 
         String locationName = favoriteLocation.getName();
-        viewHolder.infoAboutWeather.setText(locationName);
+        viewHolder.locationName.setText(locationName);
         DownloadingUtil.getWeather(locationName, viewHolder.getCallback());
         viewHolder.cardView.setOnClickListener(v -> DetailsActivity.goToDetailsScreen(context, locationName));
     }
@@ -69,12 +68,14 @@ public class FavoriteLocationsAdapter extends RecyclerView.Adapter<FavoriteLocat
 
         private final CardView cardView;
 
-        public final TextView infoAboutWeather;
+        private final TextView locationName;
+        private final TextView infoAboutWeather;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            infoAboutWeather = (TextView) itemView.findViewById(R.id.item_current_weather_text);
+            locationName = (TextView) itemView.findViewById(R.id.item_primary_text);
+            infoAboutWeather = (TextView) itemView.findViewById(R.id.item_current_weather_info);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
 
@@ -82,9 +83,7 @@ public class FavoriteLocationsAdapter extends RecyclerView.Adapter<FavoriteLocat
             return new Callback<WeatherResponse>() {
                 @Override
                 public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                    String weatherInfo = infoAboutWeather.getText()
-                            + Commons.Chars.NEW_LINE
-                            + WeatherFormatterUtil.getBaseWeatherInfo(response.body());
+                    String weatherInfo = WeatherFormatterUtil.getBaseWeatherInfo(response.body());
                     infoAboutWeather.setText(weatherInfo);
                 }
 

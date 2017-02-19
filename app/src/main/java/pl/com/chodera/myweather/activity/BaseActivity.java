@@ -10,7 +10,6 @@ import android.view.View;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmObjectSchema;
 import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.common.NetworkReceiver;
 
@@ -40,7 +39,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetworkR
         getSupportActionBar().setDisplayUseLogoEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_logo);
     }
-
 
     public Realm getRealmInstance() {
         if (realmInstance == null || realmInstance.isClosed()) {
@@ -76,7 +74,9 @@ public abstract class BaseActivity extends AppCompatActivity implements NetworkR
             snackbar.dismiss();
         } else if (!isInternetAvailable) {
             if (snackbar == null) {
-                snackbar = Snackbar.make(getCoordinatorLayoutView(), getString(R.string.no_internet_connection),
+                snackbar = Snackbar.make(
+                        getCoordinatorLayoutView(),
+                        getString(R.string.no_internet_connection),
                         Snackbar.LENGTH_INDEFINITE);
             }
             snackbar.show();
