@@ -17,7 +17,7 @@ public class WeatherSearchViewListener implements SearchView.OnQueryTextListener
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        DetailsActivity.goToDetailsScreen(context, query);
+        DetailsActivity.goToDetailsScreen(context, query, "");
         return true;
     }
 

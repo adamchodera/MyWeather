@@ -8,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -54,12 +55,12 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
     private String locationName;
 
     private boolean isLocationFavorite = false;
-
     private FavoriteLocation favoriteLocation;
 
-    public static void goToDetailsScreen(Context context, String locationName) {
+    public static void goToDetailsScreen(final Context context, final String locationName, final String weatherInfo) {
         Intent intent = new Intent(context, DetailsActivity.class);
         intent.putExtra(Commons.IntentKeys.LOCATION_NAME, locationName);
+        intent.putExtra(Commons.IntentKeys.WEATHER_INFO, weatherInfo);
 
         context.startActivity(intent);
     }
@@ -71,24 +72,29 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
         ButterKnife.bind(this);
 
         locationName = getIntent().getStringExtra(Commons.IntentKeys.LOCATION_NAME);
+        final String weatherInfo = getIntent().getStringExtra(Commons.IntentKeys.WEATHER_INFO);
 
-        setupView();
-
-        // TODO get data from the list if available
-        DownloadingUtil.getWeather(locationName, new HandleWeatherResponse(this));
+        setupView(weatherInfo);
 
         getForecastData();
     }
 
-    private void setupView() {
+    private void setupView(String weatherInfo) {
         setSupportActionBar(toolbar);
         changeToBackNavigationMode();
 
         checkIsLocationSavedAsFavourite();
         setFavButtonIcon();
-
-        setActivityTitle(getString(R.string.loading_message));
+        
         currentWeatherLabel.setText(R.string.activity_details_current_weather_label);
+        if (TextUtils.isEmpty(weatherInfo)) {
+            setActivityTitle(getString(R.string.loading_message));
+            DownloadingUtil.getWeather(locationName, new HandleWeatherResponse(this));
+        } else {
+            setupFavButtonAction();
+            currentWeatherInfo.setText(weatherInfo);
+            setActivityTitle(locationName);
+        }
     }
 
     private void checkIsLocationSavedAsFavourite() {

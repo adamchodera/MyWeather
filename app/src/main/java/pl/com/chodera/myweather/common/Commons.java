@@ -28,6 +28,7 @@ public interface Commons {
     interface IntentKeys {
 
         String LOCATION_NAME = "key_ADVERTISEMENT";
+        String WEATHER_INFO = "key_WEATHER_INFO";
     }
 
     interface Animations {
