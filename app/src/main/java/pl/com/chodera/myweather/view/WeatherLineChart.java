@@ -82,34 +82,38 @@ public class WeatherLineChart extends LineChart {
     }
 
     private ArrayList<ILineDataSet> getYDataSets(final Response<WeatherForecastResponse> response) {
-        final ArrayList<Entry> yValues = new ArrayList<>();
         final List<WeatherResponse> weatherForecastList = response.body().getWeatherForecastList();
 
         if (weatherForecastList == null || Commons.CHART_NUMBER_OF_X_VALUES > weatherForecastList.size()) {
             return null;
         }
 
+        final ArrayList<ILineDataSet> yDataSets = new ArrayList<>();
+        yDataSets.add(getForecastTemperatureData(weatherForecastList));
+        return yDataSets;
+    }
+
+    private LineDataSet getForecastTemperatureData(List<WeatherResponse> weatherForecastList) {
+        final ArrayList<Entry> forecastTemperatureDataList = new ArrayList<>();
         String tmpTemp;
         for (int i = 0; i < Commons.CHART_NUMBER_OF_X_VALUES; i++) {
             tmpTemp = (weatherForecastList.get(i).getMain().getTemp());
-            yValues.add(new Entry(Float.parseFloat(tmpTemp), i));
+            forecastTemperatureDataList.add(new Entry(Float.parseFloat(tmpTemp), i));
         }
 
-        final LineDataSet set1 = new LineDataSet(yValues, getContext().getString(R.string.chart_data_legend));
+        final LineDataSet forecastTemperatureData = new LineDataSet(forecastTemperatureDataList, getContext().getString(R.string.chart_data_legend));
+        forecastTemperatureData.enableDashedLine(10f, 5f, 0f);
+        forecastTemperatureData.enableDashedHighlightLine(10f, 5f, 0f);
+        forecastTemperatureData.setColor(Color.BLACK);
+        forecastTemperatureData.setCircleColor(Color.BLACK);
+        forecastTemperatureData.setLineWidth(1f);
+        forecastTemperatureData.setCircleRadius(3f);
+        forecastTemperatureData.setDrawCircleHole(false);
+        forecastTemperatureData.setValueTextSize(9f);
+        forecastTemperatureData.setDrawFilled(true);
+        forecastTemperatureData.setValueFormatter(new TemperatureValueFormatter());
 
-        set1.enableDashedLine(10f, 5f, 0f);
-        set1.enableDashedHighlightLine(10f, 5f, 0f);
-        set1.setColor(Color.BLACK);
-        set1.setCircleColor(Color.BLACK);
-        set1.setLineWidth(1f);
-        set1.setCircleRadius(3f);
-        set1.setDrawCircleHole(false);
-        set1.setValueTextSize(9f);
-        set1.setDrawFilled(true);
-        set1.setValueFormatter(new TemperatureValueFormatter());
-        final ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1);
-        return dataSets;
+        return forecastTemperatureData;
     }
 
     private String getHourFormatted(final int hourShift) {
