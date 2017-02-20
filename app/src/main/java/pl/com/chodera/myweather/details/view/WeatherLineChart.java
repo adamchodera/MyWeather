@@ -1,4 +1,4 @@
-package pl.com.chodera.myweather.view;
+package pl.com.chodera.myweather.details.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,16 +8,11 @@ import android.util.AttributeSet;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,8 +25,6 @@ import pl.com.chodera.myweather.network.response.WeatherForecastResponse;
 import pl.com.chodera.myweather.network.response.WeatherResponse;
 import retrofit2.Response;
 
-import static pl.com.chodera.myweather.common.Commons.CELSIUS_UNIT;
-
 /**
  * Created by Adam Chodera on 2016-03-17.
  */
@@ -42,20 +35,11 @@ public class WeatherLineChart extends LineChart {
 
         setDragEnabled(false);
         setScaleEnabled(false);
-
         setDrawGridBackground(false);
-        setDescription("");
-        setNoDataTextDescription(context.getString(R.string.chart_data_not_available));
 
-        final XAxis xAxis = getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        final TemperatureValueFormatter temperatureValueFormatter = new TemperatureValueFormatter();
-        getAxisRight().setValueFormatter(temperatureValueFormatter);
-        getAxisLeft().setEnabled(false);
-
-        final Legend l = getLegend();
-        l.setPosition(Legend.LegendPosition.ABOVE_CHART_LEFT);
-        l.setForm(Legend.LegendForm.CIRCLE);
+        setupLabels(context);
+        setupAxis();
+        setupLegend();
     }
 
     public void setForecastDataToChart(final Response<WeatherForecastResponse> response) {
@@ -68,6 +52,25 @@ public class WeatherLineChart extends LineChart {
 
         final LineData data = new LineData(xValues, yDataSets);
         setData(data);
+    }
+
+    private void setupLabels(final Context context) {
+        setDescription("");
+        setNoDataTextDescription(context.getString(R.string.chart_data_not_available));
+    }
+
+    private void setupAxis() {
+        final XAxis xAxis = getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        final ChartTemperatureFormatter chartTemperatureFormatter = new ChartTemperatureFormatter();
+        getAxisRight().setValueFormatter(chartTemperatureFormatter);
+        getAxisLeft().setEnabled(false);
+    }
+
+    private void setupLegend() {
+        final Legend l = getLegend();
+        l.setPosition(Legend.LegendPosition.ABOVE_CHART_LEFT);
+        l.setForm(Legend.LegendForm.CIRCLE);
     }
 
     private List<String> getXValues() {
@@ -107,7 +110,7 @@ public class WeatherLineChart extends LineChart {
         forecastTemperatureData.setDrawCircleHole(false);
         forecastTemperatureData.setValueTextSize(9f);
         forecastTemperatureData.setDrawFilled(true);
-        forecastTemperatureData.setValueFormatter(new TemperatureValueFormatter());
+        forecastTemperatureData.setValueFormatter(new ChartTemperatureFormatter());
 
         return forecastTemperatureData;
     }
@@ -135,22 +138,5 @@ public class WeatherLineChart extends LineChart {
         }
 
         return hourFormatted;
-    }
-
-    private class TemperatureValueFormatter implements ValueFormatter, YAxisValueFormatter {
-
-        @Override
-        public String getFormattedValue(final float value, final Entry entry, final int dataSetIndex, final ViewPortHandler viewPortHandler) {
-            return getValueFormatted(value);
-        }
-
-        @Override
-        public String getFormattedValue(final float value, final YAxis yAxis) {
-            return getValueFormatted(value);
-        }
-
-        private String getValueFormatted(final float value) {
-            return new DecimalFormat("#.#").format(value) + CELSIUS_UNIT + Commons.Chars.SPACE + Commons.Chars.SPACE;
-        }
     }
 }

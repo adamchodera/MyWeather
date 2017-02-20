@@ -3,6 +3,7 @@ package pl.com.chodera.myweather.activity;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,25 +25,13 @@ public abstract class BaseActivity extends AppCompatActivity implements NetworkR
     private Snackbar snackbar;
     private NetworkReceiver receiver;
 
+    @Nullable
     protected abstract View getCoordinatorLayoutView();
 
     protected abstract void internetIsAvailableAgain();
 
-    public void changeToBackNavigationMode() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayUseLogoEnabled(false);
-        getSupportActionBar().setHomeAsUpIndicator(null);
-    }
-
-    public void changeToWithLogoNavigationMode() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayUseLogoEnabled(false);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_logo);
-    }
-
     public Realm getRealmInstance() {
         if (realmInstance == null || realmInstance.isClosed()) {
-
             Realm.init(this);
             final RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
             realmInstance = Realm.getInstance(realmConfiguration);
@@ -69,20 +58,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetworkR
         displayOrHideSnackbarWithInfo(isInternetAvailable);
     }
 
-    private void displayOrHideSnackbarWithInfo(final boolean isInternetAvailable) {
-        if (isInternetAvailable && snackbar != null) {
-            snackbar.dismiss();
-        } else if (!isInternetAvailable) {
-            if (snackbar == null) {
-                snackbar = Snackbar.make(
-                        getCoordinatorLayoutView(),
-                        getString(R.string.no_internet_connection),
-                        Snackbar.LENGTH_INDEFINITE);
-            }
-            snackbar.show();
-        }
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -95,9 +70,42 @@ public abstract class BaseActivity extends AppCompatActivity implements NetworkR
     @Override
     protected void onStop() {
         super.onStop();
-        realmInstance.close();
+
+        if (realmInstance != null) {
+            realmInstance.close();
+        }
         if (receiver != null) {
             this.unregisterReceiver(receiver);
+        }
+    }
+
+    protected void changeToBackNavigationMode() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(null);
+    }
+
+    protected void changeToWithLogoNavigationMode() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_logo);
+    }
+
+    private void displayOrHideSnackbarWithInfo(final boolean isInternetAvailable) {
+        if (getCoordinatorLayoutView() == null) {
+            // TODO think again if it's needed
+            return;
+        }
+        if (isInternetAvailable && snackbar != null) {
+            snackbar.dismiss();
+        } else if (!isInternetAvailable) {
+            if (snackbar == null) {
+                snackbar = Snackbar.make(
+                        getCoordinatorLayoutView(),
+                        getString(R.string.no_internet_connection),
+                        Snackbar.LENGTH_INDEFINITE);
+            }
+            snackbar.show();
         }
     }
 }

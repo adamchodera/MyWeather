@@ -11,7 +11,7 @@ import android.widget.TextView;
 import io.realm.RealmResults;
 import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.activity.BaseActivity;
-import pl.com.chodera.myweather.activity.DetailsActivity;
+import pl.com.chodera.myweather.details.WeatherDetailsActivity;
 import pl.com.chodera.myweather.model.db.FavoriteLocation;
 import pl.com.chodera.myweather.network.DownloadingUtil;
 import pl.com.chodera.myweather.network.response.WeatherResponse;
@@ -51,7 +51,7 @@ public class FavoriteLocationsAdapter extends RecyclerView.Adapter<FavoriteLocat
         viewHolder.locationName.setText(locationName);
         DownloadingUtil.getWeather(locationName, viewHolder.getCallback());
         viewHolder.cardView.setOnClickListener(
-                v -> DetailsActivity.goToDetailsScreen(
+                v -> WeatherDetailsActivity.goToDetailsScreen(
                         context,
                         locationName,
                         viewHolder.infoAboutWeather.getText().toString()));

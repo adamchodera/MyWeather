@@ -1,15 +1,16 @@
-package pl.com.chodera.myweather.activity;
+package pl.com.chodera.myweather.details.fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -17,19 +18,22 @@ import com.github.mikephil.charting.animation.Easing;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.RealmResults;
+import pl.com.chodera.myweather.BaseFragment;
 import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.common.Commons;
 import pl.com.chodera.myweather.common.listeners.WeatherDownloadListener;
+import pl.com.chodera.myweather.details.view.WeatherLineChart;
 import pl.com.chodera.myweather.model.db.FavoriteLocation;
 import pl.com.chodera.myweather.network.DownloadingUtil;
 import pl.com.chodera.myweather.network.HandleWeatherResponse;
 import pl.com.chodera.myweather.network.response.WeatherForecastResponse;
-import pl.com.chodera.myweather.view.WeatherLineChart;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DetailsActivity extends BaseActivity implements WeatherDownloadListener {
+public class WeatherDetailsFragment extends BaseFragment implements WeatherDownloadListener {
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
     @Bind(R.id.id_activity_details_coordinator_layout)
     public CoordinatorLayout coordinatorLayout;
@@ -53,39 +57,67 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
     public WeatherLineChart chart;
 
     private String locationName;
-
+    private String weatherInfo;
     private boolean isLocationFavorite = false;
     private FavoriteLocation favoriteLocation;
 
-    public static void goToDetailsScreen(final Context context, final String locationName, final String weatherInfo) {
-        Intent intent = new Intent(context, DetailsActivity.class);
-        intent.putExtra(Commons.IntentKeys.LOCATION_NAME, locationName);
-        intent.putExtra(Commons.IntentKeys.WEATHER_INFO, weatherInfo);
+    public WeatherDetailsFragment() {
+        // Required empty public constructor
+    }
 
-        context.startActivity(intent);
+    public static WeatherDetailsFragment newInstance(String param1, String param2) {
+        WeatherDetailsFragment fragment = new WeatherDetailsFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
-        ButterKnife.bind(this);
-
-        locationName = getIntent().getStringExtra(Commons.IntentKeys.LOCATION_NAME);
-        final String weatherInfo = getIntent().getStringExtra(Commons.IntentKeys.WEATHER_INFO);
-
-        setupView(weatherInfo);
-
-        getForecastData();
+        if (getArguments() != null) {
+            locationName = getArguments().getString(ARG_PARAM1);
+            weatherInfo = getArguments().getString(ARG_PARAM2);
+        }
     }
 
-    private void setupView(String weatherInfo) {
-        setSupportActionBar(toolbar);
-        changeToBackNavigationMode();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_weather_details, container, false);
+        ButterKnife.bind(this, view);
+
+        setupView();
+
+        getForecastData();
+
+        return view;
+    }
+
+    @Override
+    public void downloadingWeatherFailed() {
+        setTitleWeatherNotFound();
+    }
+
+    @Override
+    public void downloadingWeatherSucceeded(String weatherInfo, String name) {
+        currentWeatherInfo.setText(weatherInfo);
+
+        locationName = name;
+        setActivityTitle(locationName);
+        checkIsLocationSavedAsFavourite();
+        setupFavButtonAction();
+        setFavButtonIcon();
+    }
+
+    private void setupView() {
+        setupToolbar();
 
         checkIsLocationSavedAsFavourite();
         setFavButtonIcon();
-        
+
         currentWeatherLabel.setText(R.string.activity_details_current_weather_label);
         if (TextUtils.isEmpty(weatherInfo)) {
             setActivityTitle(getString(R.string.loading_message));
@@ -95,6 +127,11 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
             currentWeatherInfo.setText(weatherInfo);
             setActivityTitle(locationName);
         }
+    }
+
+    private void setupToolbar() {
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        changeToBackNavigationMode();
     }
 
     private void checkIsLocationSavedAsFavourite() {
@@ -180,31 +217,5 @@ public class DetailsActivity extends BaseActivity implements WeatherDownloadList
 
     private void setActivityTitle(String title) {
         collapsingToolbarLayout.setTitle(title);
-    }
-
-    @Override
-    public void downloadingWeatherFailed() {
-        setTitleWeatherNotFound();
-    }
-
-    @Override
-    public void downloadingWeatherSucceeded(String weatherInfo, String name) {
-        currentWeatherInfo.setText(weatherInfo);
-
-        locationName = name;
-        setActivityTitle(locationName);
-        checkIsLocationSavedAsFavourite();
-        setupFavButtonAction();
-        setFavButtonIcon();
-    }
-
-    @Override
-    protected View getCoordinatorLayoutView() {
-        return coordinatorLayout;
-    }
-
-    @Override
-    protected void internetIsAvailableAgain() {
-        DownloadingUtil.getWeather(locationName, new HandleWeatherResponse(this));
     }
 }

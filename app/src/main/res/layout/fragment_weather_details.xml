@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activity.DetailsActivity">
+    tools:context=".details.WeatherDetailsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -38,8 +38,8 @@
         android:layout_height="match_parent"
         android:background="@color/backgroundForCards"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".activity.DetailsActivity"
-        tools:showIn="@layout/activity_details">
+        tools:context=".details.WeatherDetailsActivity"
+        tools:showIn="@layout/activity_weather_details">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                 android:layout_margin="@dimen/margin_medium"
                 card_view:cardCornerRadius="@dimen/margin_small">
 
-                <pl.com.chodera.myweather.view.WeatherLineChart
+                <pl.com.chodera.myweather.details.view.WeatherLineChart
                     android:id="@+id/chart"
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
