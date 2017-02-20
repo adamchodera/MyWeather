@@ -2,6 +2,7 @@ package pl.com.chodera.myweather.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -94,12 +95,7 @@ public class WeatherLineChart extends LineChart {
     }
 
     private LineDataSet getForecastTemperatureData(List<WeatherResponse> weatherForecastList) {
-        final ArrayList<Entry> forecastTemperatureDataList = new ArrayList<>();
-        String tmpTemp;
-        for (int i = 0; i < Commons.CHART_NUMBER_OF_X_VALUES; i++) {
-            tmpTemp = (weatherForecastList.get(i).getMain().getTemp());
-            forecastTemperatureDataList.add(new Entry(Float.parseFloat(tmpTemp), i));
-        }
+        final ArrayList<Entry> forecastTemperatureDataList = parseForecastTemperatureToEntryList(weatherForecastList);
 
         final LineDataSet forecastTemperatureData = new LineDataSet(forecastTemperatureDataList, getContext().getString(R.string.chart_data_legend));
         forecastTemperatureData.enableDashedLine(10f, 5f, 0f);
@@ -114,6 +110,17 @@ public class WeatherLineChart extends LineChart {
         forecastTemperatureData.setValueFormatter(new TemperatureValueFormatter());
 
         return forecastTemperatureData;
+    }
+
+    @NonNull
+    private ArrayList<Entry> parseForecastTemperatureToEntryList(List<WeatherResponse> weatherForecastList) {
+        final ArrayList<Entry> forecastTemperatureDataList = new ArrayList<>();
+        String tmpTemp;
+        for (int i = 0; i < Commons.CHART_NUMBER_OF_X_VALUES; i++) {
+            tmpTemp = weatherForecastList.get(i).getMain().getTemp();
+            forecastTemperatureDataList.add(new Entry(Float.parseFloat(tmpTemp), i));
+        }
+        return forecastTemperatureDataList;
     }
 
     private String getHourFormatted(final int hourShift) {
