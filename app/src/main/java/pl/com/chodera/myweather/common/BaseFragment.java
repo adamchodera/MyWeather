@@ -1,7 +1,8 @@
-package pl.com.chodera.myweather;
+package pl.com.chodera.myweather.common;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -19,6 +20,10 @@ public class BaseFragment extends Fragment {
         }
 
         return realmInstance;
+    }
+
+    protected void setupToolbar(final Toolbar toolbar) {
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     }
 
     protected void changeToBackNavigationMode() {

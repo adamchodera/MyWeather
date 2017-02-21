@@ -5,7 +5,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,8 +15,8 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.RealmResults;
-import pl.com.chodera.myweather.BaseFragment;
 import pl.com.chodera.myweather.R;
+import pl.com.chodera.myweather.common.BaseFragment;
 import pl.com.chodera.myweather.common.Commons;
 import pl.com.chodera.myweather.common.listeners.WeatherDownloadListener;
 import pl.com.chodera.myweather.details.view.WeatherLineChart;
@@ -109,11 +108,15 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
     }
 
     private void setupView() {
-        setupToolbar();
+        setupToolbar(toolbar);
+        changeToBackNavigationMode();
+        setupCurrentWeatherInfo();
 
         checkIsLocationSavedAsFavourite();
         setFavButtonIcon();
+    }
 
+    private void setupCurrentWeatherInfo() {
         currentWeatherLabel.setText(R.string.activity_details_current_weather_label);
         if (TextUtils.isEmpty(weatherInfo)) {
             setActivityTitle(getString(R.string.loading_message));
@@ -123,11 +126,6 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
             currentWeatherInfo.setText(weatherInfo);
             setActivityTitle(locationName);
         }
-    }
-
-    private void setupToolbar() {
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        changeToBackNavigationMode();
     }
 
     private void checkIsLocationSavedAsFavourite() {
