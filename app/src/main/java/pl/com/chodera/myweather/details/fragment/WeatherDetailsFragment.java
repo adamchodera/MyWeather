@@ -51,10 +51,9 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
     @Bind(R.id.chart)
     public WeatherLineChart chart;
 
-    private String locationName;
-    private String weatherInfo;
     private boolean isLocationFavorite = false;
     private FavoriteLocation favoriteLocation;
+    private String locationName;
 
     public WeatherDetailsFragment() {
         // Required empty public constructor
@@ -67,15 +66,6 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
         args.putString(Commons.ArgumentParams.WEATHER_INFO, param2);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            locationName = getArguments().getString(Commons.ArgumentParams.LOCATION_NAME);
-            weatherInfo = getArguments().getString(Commons.ArgumentParams.WEATHER_INFO);
-        }
     }
 
     @Override
@@ -93,18 +83,16 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
 
     @Override
     public void downloadingWeatherFailed() {
-        setTitleWeatherNotFound();
+        currentWeatherInfo.setText(getString(R.string.activity_details_weather_not_found));
     }
 
     @Override
     public void downloadingWeatherSucceeded(String weatherInfo, String name) {
         currentWeatherInfo.setText(weatherInfo);
 
-        locationName = name;
-        setActivityTitle(locationName);
+        setActivityTitle(name);
         checkIsLocationSavedAsFavourite();
         setupFavButtonAction();
-        setFavButtonIcon();
     }
 
     private void setupView() {
@@ -118,6 +106,13 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
 
     private void setupCurrentWeatherInfo() {
         currentWeatherLabel.setText(R.string.activity_details_current_weather_label);
+
+        String weatherInfo = null;
+        if (getArguments() != null) {
+            locationName = getArguments().getString(Commons.ArgumentParams.LOCATION_NAME);
+            weatherInfo = getArguments().getString(Commons.ArgumentParams.WEATHER_INFO);
+        }
+
         if (TextUtils.isEmpty(weatherInfo)) {
             setActivityTitle(getString(R.string.loading_message));
             DownloadingUtil.getWeather(locationName, new HandleWeatherResponse(this));
@@ -183,17 +178,13 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
         Snackbar.make(floatingActionButton, message, Snackbar.LENGTH_LONG).show();
     }
 
-    private void setTitleWeatherNotFound() {
-        currentWeatherInfo.setText(getString(R.string.activity_details_weather_not_found));
-    }
-
     private void getForecastData() {
         DownloadingUtil.getForecastWeather(locationName, new Callback<WeatherForecastResponse>() {
             @Override
             public void onResponse(Call<WeatherForecastResponse> call, Response<WeatherForecastResponse> response) {
                 chart.setVisibility(View.VISIBLE);
                 if (response.isSuccessful()) {
-                    drawChart(response);
+                    chart.setForecastDataToChart(response);
                 }
             }
 
@@ -202,10 +193,6 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
                 chart.setVisibility(View.VISIBLE);
             }
         });
-    }
-
-    private void drawChart(Response<WeatherForecastResponse> response) {
-        chart.setForecastDataToChart(response);
     }
 
     private void setActivityTitle(String title) {
