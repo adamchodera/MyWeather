@@ -8,6 +8,7 @@ Very simple and tiny application which demonstrates consuming APIs with Retrofit
 
 <a href='https://play.google.com/store/apps/details?id=pl.com.chodera.myweather&utm_source=GitHub&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="150"/></a>
 
+<img alt='App preview animation' src='https://github.com/adamski8/MyWeather/raw/master/app-preview-animation.gif' height="650"/>
 
 # Used libraries
 Google Support Libraries:
