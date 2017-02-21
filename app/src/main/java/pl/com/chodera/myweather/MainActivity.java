@@ -1,4 +1,4 @@
-package pl.com.chodera.myweather.activity;
+package pl.com.chodera.myweather;
 
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -17,6 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.adapter.FavoriteLocationsAdapter;
+import pl.com.chodera.myweather.common.BaseActivity;
 import pl.com.chodera.myweather.common.listeners.WeatherSearchViewListener;
 
 public class MainActivity extends BaseActivity {

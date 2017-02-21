@@ -7,7 +7,7 @@ import android.view.View;
 
 import butterknife.ButterKnife;
 import pl.com.chodera.myweather.R;
-import pl.com.chodera.myweather.activity.BaseActivity;
+import pl.com.chodera.myweather.common.BaseActivity;
 import pl.com.chodera.myweather.common.Commons;
 import pl.com.chodera.myweather.details.fragment.WeatherDetailsFragment;
 

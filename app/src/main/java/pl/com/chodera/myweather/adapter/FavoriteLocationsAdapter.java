@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import io.realm.RealmResults;
 import pl.com.chodera.myweather.R;
-import pl.com.chodera.myweather.activity.BaseActivity;
+import pl.com.chodera.myweather.common.BaseActivity;
 import pl.com.chodera.myweather.details.WeatherDetailsActivity;
 import pl.com.chodera.myweather.model.db.FavoriteLocation;
 import pl.com.chodera.myweather.network.DownloadingUtil;

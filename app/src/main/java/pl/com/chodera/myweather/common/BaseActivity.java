@@ -1,4 +1,4 @@
-package pl.com.chodera.myweather.activity;
+package pl.com.chodera.myweather.common;
 
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -12,7 +12,7 @@ import android.view.View;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import pl.com.chodera.myweather.R;
-import pl.com.chodera.myweather.common.NetworkReceiver;
+import pl.com.chodera.myweather.network.NetworkReceiver;
 
 /**
  * Created by Adam Chodera on 2016-03-15.

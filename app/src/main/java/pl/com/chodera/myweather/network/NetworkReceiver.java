@@ -1,4 +1,4 @@
-package pl.com.chodera.myweather.common;
+package pl.com.chodera.myweather.network;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
