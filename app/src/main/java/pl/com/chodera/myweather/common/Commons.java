@@ -31,6 +31,12 @@ public interface Commons {
         String WEATHER_INFO = "key_WEATHER_INFO";
     }
 
+    interface ArgumentParams {
+
+        String LOCATION_NAME = "arg_ADVERTISEMENT";
+        String WEATHER_INFO = "arg_WEATHER_INFO";
+    }
+
     interface Animations {
 
         int DRAW_CHART_DATA = 1800;

@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.animation.Easing;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.RealmResults;
@@ -32,8 +30,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class WeatherDetailsFragment extends BaseFragment implements WeatherDownloadListener {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     @Bind(R.id.id_activity_details_coordinator_layout)
     public CoordinatorLayout coordinatorLayout;
@@ -68,8 +64,8 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
     public static WeatherDetailsFragment newInstance(String param1, String param2) {
         WeatherDetailsFragment fragment = new WeatherDetailsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(Commons.ArgumentParams.LOCATION_NAME, param1);
+        args.putString(Commons.ArgumentParams.WEATHER_INFO, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,8 +74,8 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            locationName = getArguments().getString(ARG_PARAM1);
-            weatherInfo = getArguments().getString(ARG_PARAM2);
+            locationName = getArguments().getString(Commons.ArgumentParams.LOCATION_NAME);
+            weatherInfo = getArguments().getString(Commons.ArgumentParams.WEATHER_INFO);
         }
     }
 
@@ -212,7 +208,6 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
 
     private void drawChart(Response<WeatherForecastResponse> response) {
         chart.setForecastDataToChart(response);
-        chart.animateX(Commons.Animations.DRAW_CHART_DATA, Easing.EasingOption.EaseInOutQuart);
     }
 
     private void setActivityTitle(String title) {

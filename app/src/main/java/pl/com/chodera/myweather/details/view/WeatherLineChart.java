@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -43,6 +44,10 @@ public class WeatherLineChart extends LineChart {
     }
 
     public void setForecastDataToChart(final Response<WeatherForecastResponse> response) {
+        setForecastDataToChart(response, true);
+    }
+
+    public void setForecastDataToChart(final Response<WeatherForecastResponse> response, final boolean withAnimation) {
         final List<String> xValues = getXValues();
         final ArrayList<ILineDataSet> yDataSets = getYDataSets(response);
 
@@ -52,6 +57,10 @@ public class WeatherLineChart extends LineChart {
 
         final LineData data = new LineData(xValues, yDataSets);
         setData(data);
+
+        if (withAnimation) {
+            animateX(Commons.Animations.DRAW_CHART_DATA, Easing.EasingOption.EaseInOutQuart);
+        }
     }
 
     private void setupLabels(final Context context) {
