@@ -6,6 +6,8 @@ import com.crashlytics.android.Crashlytics;
 import com.squareup.leakcanary.LeakCanary;
 
 import io.fabric.sdk.android.Fabric;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class MyWeatherApplication extends Application {
 
@@ -17,6 +19,8 @@ public class MyWeatherApplication extends Application {
         } else {
             Fabric.with(this, new Crashlytics());
         }
+
+        initializeRealmDatabase();
     }
 
     private void startLeakCanary() {
@@ -26,5 +30,11 @@ public class MyWeatherApplication extends Application {
             return;
         }
         LeakCanary.install(this);
+    }
+
+    private void initializeRealmDatabase() {
+        Realm.init(this);
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+        Realm.setDefaultConfiguration(realmConfiguration);
     }
 }

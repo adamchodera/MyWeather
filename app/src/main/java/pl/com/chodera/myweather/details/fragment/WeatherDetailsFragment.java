@@ -20,6 +20,7 @@ import pl.com.chodera.myweather.common.BaseFragment;
 import pl.com.chodera.myweather.common.Commons;
 import pl.com.chodera.myweather.common.listeners.WeatherDownloadListener;
 import pl.com.chodera.myweather.details.view.WeatherLineChart;
+import pl.com.chodera.myweather.model.db.DatabaseHelper;
 import pl.com.chodera.myweather.model.db.FavoriteLocation;
 import pl.com.chodera.myweather.network.DownloadingUtil;
 import pl.com.chodera.myweather.network.HandleWeatherResponse;
@@ -87,10 +88,11 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
     }
 
     @Override
-    public void downloadingWeatherSucceeded(String weatherInfo, String name) {
+    public void downloadingWeatherSucceeded(String weatherInfo, String locationName) {
         currentWeatherInfo.setText(weatherInfo);
+        this.locationName = locationName;
 
-        setActivityTitle(name);
+        setActivityTitle(locationName);
         checkIsLocationSavedAsFavourite();
         setupFavButtonAction();
     }
@@ -130,7 +132,7 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
 
         if (favoriteLocationRealmResult.size() == 1) {
             isLocationFavorite = true;
-            favoriteLocation = favoriteLocationRealmResult.get(0);
+            favoriteLocation = favoriteLocationRealmResult.first();
         }
     }
 
@@ -144,19 +146,11 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
     }
 
     private void addOrRemoveLocationFromFavorites() {
-        getRealmInstance().beginTransaction();
-
         if (isLocationFavorite) {
-            if (favoriteLocation != null) {
-                favoriteLocation.deleteFromRealm();
-            }
+            DatabaseHelper.deleteObjectFromRealm(getRealmInstance(), favoriteLocation);
         } else {
-            FavoriteLocation newFavoriteLocation = new FavoriteLocation(locationName);
-            getRealmInstance().copyToRealm(newFavoriteLocation);
-            favoriteLocation = newFavoriteLocation;
+            favoriteLocation = DatabaseHelper.createAndSaveObject(getRealmInstance(), FavoriteLocation.class, locationName);
         }
-
-        getRealmInstance().commitTransaction();
     }
 
     private void setFavButtonIcon() {

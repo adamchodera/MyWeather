@@ -34,12 +34,12 @@ public class WeatherDetailsActivity extends BaseActivity {
 
     @Override
     protected View getCoordinatorLayoutView() {
-        return null;
+        return null; // FIXME: 23.02.2017 
     }
 
     @Override
     protected void internetIsAvailableAgain() {
-
+        // TODO handle that in fragment
     }
 
     private void setupFragment() {

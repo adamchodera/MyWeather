@@ -1,24 +1,30 @@
 package pl.com.chodera.myweather.common;
 
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
+import pl.com.chodera.myweather.model.db.DatabaseHelper;
 
 public class BaseFragment extends Fragment {
 
     private Realm realmInstance;
 
-    public Realm getRealmInstance() {
-        if (realmInstance == null || realmInstance.isClosed()) {
+    @Override
+    public void onDetach() {
+        super.onDetach();
 
-            Realm.init(getContext());
-            final RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
-            realmInstance = Realm.getInstance(realmConfiguration);
+        if (DatabaseHelper.isRealmInstanceOpened(realmInstance)) {
+            realmInstance.close();
         }
+    }
 
+    protected Realm getRealmInstance() {
+        if (DatabaseHelper.isRealmInstanceClosed(realmInstance)) {
+            realmInstance = Realm.getDefaultInstance();
+        }
         return realmInstance;
     }
 
@@ -27,8 +33,12 @@ public class BaseFragment extends Fragment {
     }
 
     protected void changeToBackNavigationMode() {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayUseLogoEnabled(false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(null);
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar == null) {
+            return;
+        }
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayUseLogoEnabled(false);
+        actionBar.setHomeAsUpIndicator(null);
     }
 }

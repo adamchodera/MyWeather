@@ -16,10 +16,6 @@ public class FavoriteLocation extends RealmObject {
     public FavoriteLocation() {
     }
 
-    public FavoriteLocation(final String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
     }

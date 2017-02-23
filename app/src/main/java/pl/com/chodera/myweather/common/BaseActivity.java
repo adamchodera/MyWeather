@@ -10,8 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import pl.com.chodera.myweather.R;
+import pl.com.chodera.myweather.model.db.DatabaseHelper;
 import pl.com.chodera.myweather.network.NetworkReceiver;
 
 /**
@@ -21,9 +21,9 @@ public abstract class BaseActivity extends AppCompatActivity implements NetworkR
 
     protected boolean previousInternetAvailability = true;
 
-    private Realm realmInstance;
     private Snackbar snackbar;
     private NetworkReceiver receiver;
+    private Realm realmInstance;
 
     @Nullable
     protected abstract View getCoordinatorLayoutView();
@@ -31,12 +31,9 @@ public abstract class BaseActivity extends AppCompatActivity implements NetworkR
     protected abstract void internetIsAvailableAgain();
 
     public Realm getRealmInstance() {
-        if (realmInstance == null || realmInstance.isClosed()) {
-            Realm.init(this);
-            final RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
-            realmInstance = Realm.getInstance(realmConfiguration);
+        if (DatabaseHelper.isRealmInstanceClosed(realmInstance)) {
+            realmInstance = Realm.getDefaultInstance();
         }
-
         return realmInstance;
     }
 
@@ -71,18 +68,18 @@ public abstract class BaseActivity extends AppCompatActivity implements NetworkR
     protected void onStop() {
         super.onStop();
 
-        if (realmInstance != null) {
-            realmInstance.close();
-        }
         if (receiver != null) {
             this.unregisterReceiver(receiver);
         }
     }
 
-    protected void changeToBackNavigationMode() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayUseLogoEnabled(false);
-        getSupportActionBar().setHomeAsUpIndicator(null);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (DatabaseHelper.isRealmInstanceOpened(realmInstance)) {
+            realmInstance.close();
+        }
     }
 
     protected void changeToWithLogoNavigationMode() {
