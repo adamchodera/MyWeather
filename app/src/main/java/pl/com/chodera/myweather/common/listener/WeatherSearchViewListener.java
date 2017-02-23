@@ -1,4 +1,4 @@
-package pl.com.chodera.myweather.common.listeners;
+package pl.com.chodera.myweather.common.listener;
 
 import android.content.Context;
 import android.support.v7.widget.SearchView;

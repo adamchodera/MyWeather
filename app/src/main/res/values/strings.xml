@@ -15,4 +15,5 @@
         use
         the app.</string>
     <string name="activity_details_current_weather_label">Current weather</string>
+    <string name="favorite_location_adapter_downloading_weather_failed">Downloading current weather failed, sorry!</string>
 </resources>

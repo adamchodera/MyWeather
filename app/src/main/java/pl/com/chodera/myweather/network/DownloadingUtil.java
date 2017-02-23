@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class DownloadingUtil {
 
-    public static void getWeather(String location, Callback<WeatherResponse> callback) {
+    public static void getCurrentWeather(String location, Callback<WeatherResponse> callback) {
         getRetrofitService().getWeather(location, Commons.OPEN_WEATHER_APP_ID).enqueue(callback);
     }
 

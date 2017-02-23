@@ -15,10 +15,9 @@ import android.view.View;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.adapter.FavoriteLocationsAdapter;
 import pl.com.chodera.myweather.common.BaseActivity;
-import pl.com.chodera.myweather.common.listeners.WeatherSearchViewListener;
+import pl.com.chodera.myweather.common.listener.WeatherSearchViewListener;
 
 public class MainActivity extends BaseActivity {
 

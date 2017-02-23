@@ -18,12 +18,12 @@ import io.realm.RealmResults;
 import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.common.BaseFragment;
 import pl.com.chodera.myweather.common.Commons;
-import pl.com.chodera.myweather.common.listeners.WeatherDownloadListener;
+import pl.com.chodera.myweather.common.listener.WeatherDownloadListener;
 import pl.com.chodera.myweather.details.view.WeatherLineChart;
 import pl.com.chodera.myweather.model.db.DatabaseHelper;
 import pl.com.chodera.myweather.model.db.FavoriteLocation;
 import pl.com.chodera.myweather.network.DownloadingUtil;
-import pl.com.chodera.myweather.network.HandleWeatherResponse;
+import pl.com.chodera.myweather.network.response.WeatherResponseCallback;
 import pl.com.chodera.myweather.network.response.WeatherForecastResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,12 +83,12 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
     }
 
     @Override
-    public void downloadingWeatherFailed() {
+    public void onWeatherDownloadFailed() {
         currentWeatherInfo.setText(getString(R.string.activity_details_weather_not_found));
     }
 
     @Override
-    public void downloadingWeatherSucceeded(String weatherInfo, String locationName) {
+    public void onWeatherDownloaded(String weatherInfo, String locationName) {
         currentWeatherInfo.setText(weatherInfo);
         this.locationName = locationName;
 
@@ -117,7 +117,7 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
 
         if (TextUtils.isEmpty(weatherInfo)) {
             setActivityTitle(getString(R.string.loading_message));
-            DownloadingUtil.getWeather(locationName, new HandleWeatherResponse(this));
+            DownloadingUtil.getCurrentWeather(locationName, new WeatherResponseCallback(this));
         } else {
             setupFavButtonAction();
             currentWeatherInfo.setText(weatherInfo);

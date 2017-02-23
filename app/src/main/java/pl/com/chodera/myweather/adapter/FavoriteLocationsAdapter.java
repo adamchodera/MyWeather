@@ -11,13 +11,11 @@ import android.widget.TextView;
 import io.realm.RealmResults;
 import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.common.BaseActivity;
+import pl.com.chodera.myweather.common.listener.WeatherDownloadListener;
 import pl.com.chodera.myweather.details.WeatherDetailsActivity;
 import pl.com.chodera.myweather.model.db.FavoriteLocation;
 import pl.com.chodera.myweather.network.DownloadingUtil;
-import pl.com.chodera.myweather.network.response.WeatherResponse;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import pl.com.chodera.myweather.network.response.WeatherResponseCallback;
 
 /**
  * Created by Adam Chodera on 2016-03-17.
@@ -49,7 +47,7 @@ public class FavoriteLocationsAdapter extends RecyclerView.Adapter<FavoriteLocat
 
         String locationName = favoriteLocation.getName();
         viewHolder.locationName.setText(locationName);
-        DownloadingUtil.getWeather(locationName, viewHolder.getCallback());
+        DownloadingUtil.getCurrentWeather(locationName, viewHolder.getCallback());
         viewHolder.cardView.setOnClickListener(
                 v -> WeatherDetailsActivity.goToDetailsScreen(
                         context,
@@ -83,19 +81,20 @@ public class FavoriteLocationsAdapter extends RecyclerView.Adapter<FavoriteLocat
             cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
 
-        public Callback<WeatherResponse> getCallback() {
-            return new Callback<WeatherResponse>() {
+
+        public WeatherResponseCallback getCallback() {
+            return new WeatherResponseCallback(new WeatherDownloadListener() {
                 @Override
-                public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                    String weatherInfo = WeatherFormatterUtil.getBaseWeatherInfo(response.body());
+                public void onWeatherDownloadFailed() {
+                    infoAboutWeather.setText(R.string.favorite_location_adapter_downloading_weather_failed);
+                }
+
+                @Override
+                public void onWeatherDownloaded(String weatherInfo, String locationName) {
                     infoAboutWeather.setText(weatherInfo);
                 }
-
-                @Override
-                public void onFailure(Call<WeatherResponse> call, Throwable t) {
-
-                }
-            };
+            });
         }
     }
+
 }

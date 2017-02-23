@@ -1,15 +1,14 @@
-package pl.com.chodera.myweather.adapter;
+package pl.com.chodera.myweather.network.response;
 
 import pl.com.chodera.myweather.common.Commons;
 import pl.com.chodera.myweather.model.pojo.Main;
-import pl.com.chodera.myweather.network.response.WeatherResponse;
 
 import static pl.com.chodera.myweather.common.Commons.CELSIUS_UNIT;
 
 /**
  * Created by Adam Chodera on 2016-03-15.
  */
-public class WeatherFormatterUtil {
+class WeatherFormatterUtil {
 
     public static String getBaseWeatherInfo(final WeatherResponse response) {
         try {
