@@ -1,6 +1,6 @@
 package pl.com.chodera.myweather.network.response;
 
-import pl.com.chodera.myweather.common.listener.WeatherDownloadListener;
+import pl.com.chodera.myweather.network.listener.WeatherDownloadListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

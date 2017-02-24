@@ -34,7 +34,7 @@ public class MyWeatherApplication extends Application {
 
     private void initializeRealmDatabase() {
         Realm.init(this);
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+        final RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
         Realm.setDefaultConfiguration(realmConfiguration);
     }
 }

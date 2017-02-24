@@ -7,7 +7,7 @@ import android.view.View;
 
 import butterknife.ButterKnife;
 import pl.com.chodera.myweather.R;
-import pl.com.chodera.myweather.common.BaseActivity;
+import pl.com.chodera.myweather.common.ui.BaseActivity;
 import pl.com.chodera.myweather.common.Commons;
 import pl.com.chodera.myweather.details.fragment.WeatherDetailsFragment;
 
@@ -34,7 +34,7 @@ public class WeatherDetailsActivity extends BaseActivity {
 
     @Override
     protected View getCoordinatorLayoutView() {
-        return null; // FIXME: 23.02.2017 
+        return null; // FIXME: 23.02.2017
     }
 
     @Override

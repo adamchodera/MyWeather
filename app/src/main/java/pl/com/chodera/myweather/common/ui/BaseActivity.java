@@ -1,4 +1,4 @@
-package pl.com.chodera.myweather.common;
+package pl.com.chodera.myweather.common.ui;
 
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;

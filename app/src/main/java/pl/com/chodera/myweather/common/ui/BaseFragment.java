@@ -1,4 +1,4 @@
-package pl.com.chodera.myweather.common;
+package pl.com.chodera.myweather.common.ui;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
