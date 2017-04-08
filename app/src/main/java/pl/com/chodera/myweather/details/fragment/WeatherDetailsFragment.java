@@ -103,7 +103,6 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
         setupCurrentWeatherInfo();
 
         checkIsLocationSavedAsFavourite();
-        setFavButtonIcon();
     }
 
     private void setupCurrentWeatherInfo() {
@@ -126,13 +125,14 @@ public class WeatherDetailsFragment extends BaseFragment implements WeatherDownl
     }
 
     private void checkIsLocationSavedAsFavourite() {
-        RealmResults<FavoriteLocation> favoriteLocationRealmResult = getRealmInstance().where(FavoriteLocation.class)
+        final RealmResults<FavoriteLocation> favoriteLocationRealmResult = getRealmInstance().where(FavoriteLocation.class)
                 .equalTo("name", locationName)
                 .findAll();
 
         if (favoriteLocationRealmResult.size() == 1) {
             isLocationFavorite = true;
             favoriteLocation = favoriteLocationRealmResult.first();
+            setFavButtonIcon();
         }
     }
 
