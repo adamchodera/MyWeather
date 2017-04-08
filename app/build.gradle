@@ -62,7 +62,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     final SUPPORT_LIBRARY_VERSION = '25.3.1'
-    final RETROFIT_LIBRARY_VERSION = '2.1.0'
+    final RETROFIT_LIBRARY_VERSION = '2.2.0'
 
     // ui
     compile "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
