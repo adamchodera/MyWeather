@@ -75,7 +75,7 @@ dependencies {
     // networking
     compile "com.squareup.retrofit2:retrofit:$RETROFIT_LIBRARY_VERSION"
     compile "com.squareup.retrofit2:converter-gson:$RETROFIT_LIBRARY_VERSION"
-    compile 'com.google.code.gson:gson:2.6.1'
+    compile 'com.google.code.gson:gson:2.7'
 
     // rx
 //    compile 'io.reactivex:rxjava:1.1.1'
