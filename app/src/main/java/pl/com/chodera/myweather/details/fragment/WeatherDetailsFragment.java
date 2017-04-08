@@ -2,7 +2,6 @@ package pl.com.chodera.myweather.details.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
@@ -11,28 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.RealmResults;
 import pl.com.chodera.myweather.R;
-import pl.com.chodera.myweather.common.ui.BaseFragment;
 import pl.com.chodera.myweather.common.Commons;
-import pl.com.chodera.myweather.network.listener.WeatherDownloadListener;
+import pl.com.chodera.myweather.common.ui.BaseFragment;
 import pl.com.chodera.myweather.details.view.WeatherLineChart;
 import pl.com.chodera.myweather.model.db.DatabaseHelper;
 import pl.com.chodera.myweather.model.db.FavoriteLocation;
 import pl.com.chodera.myweather.network.DownloadingUtil;
-import pl.com.chodera.myweather.network.response.WeatherResponseCallback;
+import pl.com.chodera.myweather.network.listener.WeatherDownloadListener;
 import pl.com.chodera.myweather.network.response.WeatherForecastResponse;
+import pl.com.chodera.myweather.network.response.WeatherResponseCallback;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class WeatherDetailsFragment extends BaseFragment implements WeatherDownloadListener {
-
-    @Bind(R.id.id_activity_details_coordinator_layout)
-    public CoordinatorLayout coordinatorLayout;
 
     @Bind(R.id.toolbar_layout)
     public CollapsingToolbarLayout collapsingToolbarLayout;
