@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmResults;
 import pl.com.chodera.myweather.R;
@@ -29,22 +29,22 @@ import retrofit2.Response;
 
 public class WeatherDetailsFragment extends BaseFragment implements WeatherDownloadListener {
 
-    @Bind(R.id.toolbar_layout)
+    @BindView(R.id.toolbar_layout)
     public CollapsingToolbarLayout collapsingToolbarLayout;
 
-    @Bind(R.id.item_primary_text)
+    @BindView(R.id.item_primary_text)
     public TextView currentWeatherLabel;
 
-    @Bind(R.id.item_current_weather_info)
+    @BindView(R.id.item_current_weather_info)
     public TextView currentWeatherInfo;
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     public Toolbar toolbar;
 
-    @Bind(R.id.fab)
+    @BindView(R.id.fab)
     public FloatingActionButton floatingActionButton;
 
-    @Bind(R.id.chart)
+    @BindView(R.id.chart)
     public WeatherLineChart chart;
 
     private boolean isLocationFavorite = false;

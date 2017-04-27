@@ -13,7 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.common.ui.BaseActivity;
@@ -22,13 +22,13 @@ import pl.com.chodera.myweather.main.listener.WeatherSearchViewListener;
 
 public class MainActivity extends BaseActivity {
 
-    @Bind(R.id.id_activity_main_coordinator_layout)
+    @BindView(R.id.id_activity_main_coordinator_layout)
     CoordinatorLayout coordinatorLayout;
 
-    @Bind(R.id.id_activity_main_recycler_view)
+    @BindView(R.id.id_activity_main_recycler_view)
     RecyclerView recyclerView;
 
-    @Bind(R.id.id_activity_main_tutorial_card_view)
+    @BindView(R.id.id_activity_main_tutorial_card_view)
     CardView tutorialCardView;
 
     @Override
