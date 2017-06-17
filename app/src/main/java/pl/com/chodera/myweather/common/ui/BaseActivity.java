@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.exceptions.RealmMigrationNeededException;
 import pl.com.chodera.myweather.R;
 import pl.com.chodera.myweather.model.db.DatabaseHelper;
 import pl.com.chodera.myweather.network.NetworkReceiver;
@@ -32,7 +34,13 @@ public abstract class BaseActivity extends AppCompatActivity implements NetworkR
 
     public Realm getRealmInstance() {
         if (DatabaseHelper.isRealmInstanceClosed(realmInstance)) {
-            realmInstance = Realm.getDefaultInstance();
+            try {
+                realmInstance = Realm.getDefaultInstance();
+            } catch (RealmMigrationNeededException e) {
+                // TODO in future handle more carefully
+                Realm.deleteRealm(new RealmConfiguration.Builder().build());
+                realmInstance = Realm.getDefaultInstance();
+            }
         }
         return realmInstance;
     }
