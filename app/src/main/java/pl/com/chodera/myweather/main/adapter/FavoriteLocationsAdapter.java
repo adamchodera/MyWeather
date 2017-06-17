@@ -44,7 +44,7 @@ public class FavoriteLocationsAdapter extends RecyclerView.Adapter<FavoriteLocat
         String locationName = favoriteLocation.getName();
         viewHolder.locationName.setText(locationName);
         DownloadingUtil.getCurrentWeather(locationName, viewHolder.getCallback());
-        viewHolder.cardView.setOnClickListener(
+        viewHolder.rootView.setOnClickListener(
                 v -> WeatherDetailsActivity.goToDetailsScreen(
                         context,
                         locationName,
