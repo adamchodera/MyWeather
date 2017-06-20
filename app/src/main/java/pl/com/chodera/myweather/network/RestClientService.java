@@ -16,7 +16,7 @@ public interface RestClientService {
             @Query("q") String location,
             @Query("appid") String appId);
 
-    @GET("forecast/city?units=metric")
+    @GET("forecast?units=metric")
     Call<WeatherForecastResponse> getForecastWeather(
             @Query("q") String location,
             @Query("appid") String appId);
