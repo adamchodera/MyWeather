@@ -12,6 +12,7 @@ import pl.com.chodera.myweather.common.ui.BaseActivity;
 import pl.com.chodera.myweather.details.WeatherDetailsActivity;
 import pl.com.chodera.myweather.model.db.FavoriteLocation;
 import pl.com.chodera.myweather.network.DownloadingUtil;
+import retrofit2.Call;
 
 /**
  * Created by Adam Chodera on 2016-03-17.
@@ -40,15 +41,21 @@ public class FavoriteLocationsAdapter extends RecyclerView.Adapter<FavoriteLocat
     @Override
     public void onBindViewHolder(FavoriteLocationViewHolder viewHolder, int position) {
         FavoriteLocation favoriteLocation = favoriteLocations.get(position);
-
         String locationName = favoriteLocation.getName();
-        viewHolder.locationName.setText(locationName);
-        DownloadingUtil.getCurrentWeather(locationName, viewHolder.getCallback());
+
+        Call<?> weatherCall = DownloadingUtil.getCurrentWeather(locationName, viewHolder.getWeatherCallback());
+        viewHolder.bind(locationName, weatherCall);
         viewHolder.rootView.setOnClickListener(
                 v -> WeatherDetailsActivity.goToDetailsScreen(
                         context,
                         locationName,
                         viewHolder.infoAboutWeather.getText().toString()));
+    }
+
+    @Override
+    public void onViewRecycled(FavoriteLocationViewHolder holder) {
+        holder.cancelActiveRequest();
+        super.onViewRecycled(holder);
     }
 
     @Override

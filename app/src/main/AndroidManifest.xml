@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="pl.com.chodera.myweather">
+          xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>/
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -16,8 +15,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
 
-        <activity android:name=".main.MainActivity"
-                  android:launchMode="singleTop">
+        <activity
+            android:name=".main.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -25,13 +26,16 @@
         </activity>
         <activity
             android:name=".details.WeatherDetailsActivity"
+            android:exported="false"
             android:label="@string/title_activity_scrolling"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="f05315efd700edd4b35eaf52720a9e2267f5df83"/>
+        <activity
+            android:name="com.squareup.leakcanary.internal.DisplayLeakActivity"
+            android:exported="false"
+            tools:node="merge"/>
+
     </application>
 
 </manifest>

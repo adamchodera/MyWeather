@@ -2,10 +2,8 @@ package pl.com.chodera.myweather;
 
 import android.app.Application;
 
-import com.crashlytics.android.Crashlytics;
 import com.squareup.leakcanary.LeakCanary;
 
-import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -16,8 +14,6 @@ public class MyWeatherApplication extends Application {
         super.onCreate();
         if (BuildConfig.DEBUG) {
             startLeakCanary();
-        } else {
-            Fabric.with(this, new Crashlytics());
         }
 
         initializeRealmDatabase();

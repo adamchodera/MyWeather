@@ -3,6 +3,7 @@ package pl.com.chodera.myweather.details.view;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -95,6 +96,10 @@ public class WeatherLineChart extends LineChart {
     }
 
     private ArrayList<ILineDataSet> getYDataSets(final Response<WeatherForecastResponse> response) {
+        if (!response.isSuccessful() || response.body() == null) {
+            return null;
+        }
+
         final List<WeatherResponse> weatherForecastList = response.body().getWeatherForecastList();
 
         if (weatherForecastList == null || Commons.CHART_NUMBER_OF_X_VALUES > weatherForecastList.size()) {
@@ -102,12 +107,20 @@ public class WeatherLineChart extends LineChart {
         }
 
         final ArrayList<ILineDataSet> yDataSets = new ArrayList<>();
-        yDataSets.add(getForecastTemperatureData(weatherForecastList));
+        LineDataSet forecastTemperatureData = getForecastTemperatureData(weatherForecastList);
+        if (forecastTemperatureData == null) {
+            return null;
+        }
+        yDataSets.add(forecastTemperatureData);
         return yDataSets;
     }
 
+    @Nullable
     private LineDataSet getForecastTemperatureData(List<WeatherResponse> weatherForecastList) {
         final ArrayList<Entry> forecastTemperatureDataList = parseForecastTemperatureToEntryList(weatherForecastList);
+        if (forecastTemperatureDataList == null) {
+            return null;
+        }
 
         final LineDataSet forecastTemperatureData = new LineDataSet(forecastTemperatureDataList, getContext().getString(R.string.chart_data_legend));
         forecastTemperatureData.enableDashedLine(10f, 5f, 0f);
@@ -124,12 +137,18 @@ public class WeatherLineChart extends LineChart {
         return forecastTemperatureData;
     }
 
-    @NonNull
+    @Nullable
     private ArrayList<Entry> parseForecastTemperatureToEntryList(List<WeatherResponse> weatherForecastList) {
         final ArrayList<Entry> forecastTemperatureDataList = new ArrayList<>();
         String tmpTemp;
         for (int i = 0; i < Commons.CHART_NUMBER_OF_X_VALUES; i++) {
+            if (weatherForecastList.get(i).getMain() == null) {
+                return null;
+            }
             tmpTemp = weatherForecastList.get(i).getMain().getTemp();
+            if (tmpTemp == null) {
+                return null;
+            }
             forecastTemperatureDataList.add(new Entry(Float.parseFloat(tmpTemp), i));
         }
         return forecastTemperatureDataList;

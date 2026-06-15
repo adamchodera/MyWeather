@@ -32,6 +32,8 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.id_activity_main_tutorial_card_view)
     CardView tutorialCardView;
 
+    private FavoriteLocationsAdapter favoriteLocationsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         changeToWithLogoNavigationMode();
-        setupFavoriteLocationsAdapter();
+        setupFavoriteLocationsRecyclerView();
     }
 
     @Override
@@ -56,7 +58,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        fetchAndDisplayWeatherForFavorites();
+        refreshFavoriteLocations();
     }
 
     @Override
@@ -66,10 +68,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void internetIsAvailableAgain() {
-        fetchAndDisplayWeatherForFavorites();
+        refreshFavoriteLocations();
     }
 
-    private void setupFavoriteLocationsAdapter() {
+    private void setupFavoriteLocationsRecyclerView() {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -81,8 +83,13 @@ public class MainActivity extends BaseActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
-    private void fetchAndDisplayWeatherForFavorites() {
-        final FavoriteLocationsAdapter favoriteLocationsAdapter = new FavoriteLocationsAdapter(this);
+    private void refreshFavoriteLocations() {
+        if (favoriteLocationsAdapter == null) {
+            favoriteLocationsAdapter = new FavoriteLocationsAdapter(this);
+            recyclerView.setAdapter(favoriteLocationsAdapter);
+        } else {
+            favoriteLocationsAdapter.notifyDataSetChanged();
+        }
 
         if (favoriteLocationsAdapter.getItemCount() == 0) {
             recyclerView.setVisibility(View.GONE);
@@ -90,7 +97,6 @@ public class MainActivity extends BaseActivity {
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             tutorialCardView.setVisibility(View.GONE);
-            recyclerView.setAdapter(favoriteLocationsAdapter);
         }
     }
 }

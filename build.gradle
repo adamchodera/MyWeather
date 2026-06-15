@@ -2,19 +2,20 @@
 
 buildscript {
     repositories {
-        jcenter()
+        google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
-        classpath "io.realm:realm-gradle-plugin:2.3.1"
+        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath "io.realm:realm-gradle-plugin:10.18.0"
     }
 }
 
 allprojects {
     repositories {
-        jcenter()
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
     }
 }
 

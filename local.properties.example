@@ -1,0 +1,2 @@
+sdk.dir=/path/to/Android/sdk
+OPEN_WEATHER_APP_ID=your_openweather_api_key_here

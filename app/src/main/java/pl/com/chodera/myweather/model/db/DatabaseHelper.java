@@ -8,7 +8,6 @@ public class DatabaseHelper {
     public static <T extends RealmObject> T createAndSaveObject(final Realm realmInstance, final Class<T> clazz, final Object primaryKeyValue) {
         realmInstance.beginTransaction();
         T object = realmInstance.createObject(clazz, primaryKeyValue);
-        realmInstance.copyToRealm(object);
         realmInstance.commitTransaction();
         return object;
     }
