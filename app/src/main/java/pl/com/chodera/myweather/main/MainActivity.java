@@ -67,8 +67,18 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        if (favoriteLocationsAdapter != null) {
+            favoriteLocationsAdapter.stopObserving();
+        }
+        super.onDestroy();
+    }
+
+    @Override
     protected void internetIsAvailableAgain() {
-        refreshFavoriteLocations();
+        if (favoriteLocationsAdapter != null) {
+            favoriteLocationsAdapter.refreshWeather();
+        }
     }
 
     private void setupFavoriteLocationsRecyclerView() {
@@ -86,11 +96,17 @@ public class MainActivity extends BaseActivity {
     private void refreshFavoriteLocations() {
         if (favoriteLocationsAdapter == null) {
             favoriteLocationsAdapter = new FavoriteLocationsAdapter(this);
+            favoriteLocationsAdapter.setVisibilityListener(this::updateFavoriteLocationsVisibility);
             recyclerView.setAdapter(favoriteLocationsAdapter);
-        } else {
-            favoriteLocationsAdapter.notifyDataSetChanged();
+            favoriteLocationsAdapter.startObserving();
         }
+        updateFavoriteLocationsVisibility();
+    }
 
+    private void updateFavoriteLocationsVisibility() {
+        if (favoriteLocationsAdapter == null) {
+            return;
+        }
         if (favoriteLocationsAdapter.getItemCount() == 0) {
             recyclerView.setVisibility(View.GONE);
             tutorialCardView.setVisibility(View.VISIBLE);

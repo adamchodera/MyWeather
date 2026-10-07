@@ -31,11 +31,6 @@
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity
-            android:name="com.squareup.leakcanary.internal.DisplayLeakActivity"
-            android:exported="false"
-            tools:node="merge"/>
-
     </application>
 
 </manifest>

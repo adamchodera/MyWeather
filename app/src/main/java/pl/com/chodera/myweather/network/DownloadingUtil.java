@@ -15,8 +15,12 @@ public class DownloadingUtil {
 
     private static RestClientService retrofitService;
 
+    public static Call<WeatherResponse> newCurrentWeatherCall(String location) {
+        return getRetrofitService().getWeather(location, Commons.OPEN_WEATHER_APP_ID);
+    }
+
     public static Call<WeatherResponse> getCurrentWeather(String location, Callback<WeatherResponse> callback) {
-        Call<WeatherResponse> call = getRetrofitService().getWeather(location, Commons.OPEN_WEATHER_APP_ID);
+        Call<WeatherResponse> call = newCurrentWeatherCall(location);
         call.enqueue(callback);
         return call;
     }

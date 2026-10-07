@@ -1,23 +1,21 @@
-\machine:
+machine:
   environment:
-    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError"'
+    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 --add-opens=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED --add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED --add-opens=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"'
   java:
-    version: oraclejdk8
+    version: openjdk17
 
 dependencies:
   pre:
-    # Android SDK Platform
-    - if [ ! -d "/usr/local/android-sdk-linux/platforms/android-25" ]; then echo y | android update sdk --no-ui --all --filter "android-25"; fi
-    # Android SDK Build-tools
-    - if [ ! -d "/usr/local/android-sdk-linux/build-tools/25.0.3" ]; then echo y | android update sdk --no-ui --all --filter "build-tools-25.0.3"; fi
-    # Android Support Repository / Local Maven repository for Support Libraries
-    - if [ ! -d "/usr/local/android-sdk-linux/extras/android/m2repository/com/android/support/design/25.1.1" ]; then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
+    - if [ ! -d "/usr/local/android-sdk-linux/platforms/android-33" ]; then echo y | android update sdk --no-ui --all --filter "android-33"; fi
+    - if [ ! -d "/usr/local/android-sdk-linux/build-tools/33.0.2" ]; then echo y | android update sdk --no-ui --all --filter "build-tools-33.0.2"; fi
+    - if [ ! -d "/usr/local/android-sdk-linux/extras/android/m2repository/com/android/support/design/28.0.0" ]; then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
+    - printf 'sdk.dir=%s\nOPEN_WEATHER_APP_ID=%s\n' "/usr/local/android-sdk-linux" "$OPEN_WEATHER_APP_ID" > local.properties
   cache_directories:
-    - /usr/local/android-sdk-linux/platforms/android-25
-    - /usr/local/android-sdk-linux/build-tools/25.0.3
+    - /usr/local/android-sdk-linux/platforms/android-33
+    - /usr/local/android-sdk-linux/build-tools/33.0.2
     - /usr/local/android-sdk-linux/extras/android/m2repository
 
 test:
   override:
-    - ./gradlew assembleRelease
+    - ./gradlew testDebugUnitTest assembleDebug assembleRelease
     - cp -r app/build/outputs $CIRCLE_ARTIFACTS

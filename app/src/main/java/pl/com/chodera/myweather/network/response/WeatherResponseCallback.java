@@ -18,6 +18,9 @@ public class WeatherResponseCallback implements Callback<WeatherResponse> {
 
     @Override
     public void onResponse(final Call<WeatherResponse> call, final Response<WeatherResponse> response) {
+        if (call != null && call.isCanceled()) {
+            return;
+        }
         if (!response.isSuccessful()) {
             weatherDownloadListener.onWeatherDownloadFailed();
             return;

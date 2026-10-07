@@ -1,2 +1,4 @@
 sdk.dir=/path/to/Android/sdk
+# Required for release builds. Debug builds and unit tests run without it.
+# CI can export OPEN_WEATHER_APP_ID instead of writing this file.
 OPEN_WEATHER_APP_ID=your_openweather_api_key_here

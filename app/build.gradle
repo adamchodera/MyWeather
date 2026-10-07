@@ -7,7 +7,19 @@ if (localPropertiesFile.exists()) {
     localPropertiesFile.withInputStream { localProperties.load(it) }
 }
 
-def openWeatherAppId = localProperties.getProperty('OPEN_WEATHER_APP_ID', '')
+def openWeatherAppId = localProperties.getProperty('OPEN_WEATHER_APP_ID')
+if (openWeatherAppId == null || openWeatherAppId.trim().isEmpty()) {
+    openWeatherAppId = System.getenv('OPEN_WEATHER_APP_ID')
+}
+openWeatherAppId = openWeatherAppId == null ? '' : openWeatherAppId.trim()
+
+def escapeJavaStringLiteral = { String value ->
+    '"' + value
+            .replace('\\', '\\\\')
+            .replace('"', '\\"')
+            .replace('\r', '\\r')
+            .replace('\n', '\\n') + '"'
+}
 
 android {
     namespace 'pl.com.chodera.myweather'
@@ -20,7 +32,7 @@ android {
         targetSdkVersion 33
         versionCode 6
         versionName "1.5"
-        buildConfigField "String", "OPEN_WEATHER_APP_ID", "\"${openWeatherAppId}\""
+        buildConfigField "String", "OPEN_WEATHER_APP_ID", escapeJavaStringLiteral(openWeatherAppId)
     }
     buildTypes {
         debug {
@@ -76,4 +88,13 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+}
+
+gradle.taskGraph.whenReady { graph ->
+    def buildsRelease = graph.allTasks.any { task ->
+        task.project == project && task.name == 'preReleaseBuild'
+    }
+    if (buildsRelease && openWeatherAppId.isEmpty()) {
+        throw new GradleException('OPEN_WEATHER_APP_ID is missing. Set it in local.properties or the OPEN_WEATHER_APP_ID environment variable before building a release.')
+    }
 }

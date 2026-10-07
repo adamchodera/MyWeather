@@ -6,6 +6,12 @@
 
 Very simple and tiny application which demonstrates consuming APIs with Retrofit combined with Realm database and material design look.
 
+# Configuration
+
+Copy `local.properties.example` to `local.properties` and set `OPEN_WEATHER_APP_ID`. Release builds fail when the key is missing. The same value can be supplied as the `OPEN_WEATHER_APP_ID` environment variable (CircleCI and Travis read it from there).
+
+An OpenWeather key and a Fabric API key used to be committed in this repository. Those keys should be revoked. Do not reuse them; put a new OpenWeather key in `local.properties`. Git history was left unchanged.
+
 <a href='https://play.google.com/store/apps/details?id=pl.com.chodera.myweather&utm_source=GitHub&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="150"/></a>
 
 <img alt='App preview animation' src='https://github.com/adamski8/MyWeather/raw/master/app-preview-animation.gif' height="650"/>

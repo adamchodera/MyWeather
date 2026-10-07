@@ -7,6 +7,8 @@ import com.squareup.leakcanary.LeakCanary;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
+import pl.com.chodera.myweather.model.db.FavoriteLocationMigration;
+
 public class MyWeatherApplication extends Application {
 
     @Override
@@ -30,7 +32,10 @@ public class MyWeatherApplication extends Application {
 
     private void initializeRealmDatabase() {
         Realm.init(this);
-        final RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+        final RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
+                .schemaVersion(FavoriteLocationMigration.SCHEMA_VERSION)
+                .migration(new FavoriteLocationMigration())
+                .build();
         Realm.setDefaultConfiguration(realmConfiguration);
     }
 }

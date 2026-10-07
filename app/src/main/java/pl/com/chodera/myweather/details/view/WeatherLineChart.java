@@ -117,9 +117,14 @@ public class WeatherLineChart extends LineChart {
 
     @Nullable
     private LineDataSet getForecastTemperatureData(List<WeatherResponse> weatherForecastList) {
-        final ArrayList<Entry> forecastTemperatureDataList = parseForecastTemperatureToEntryList(weatherForecastList);
-        if (forecastTemperatureDataList == null) {
+        final ArrayList<Float> temperatures = ForecastTemperatureParser.parseTemperatures(
+                weatherForecastList, Commons.CHART_NUMBER_OF_X_VALUES);
+        if (temperatures == null) {
             return null;
+        }
+        final ArrayList<Entry> forecastTemperatureDataList = new ArrayList<>();
+        for (int i = 0; i < temperatures.size(); i++) {
+            forecastTemperatureDataList.add(new Entry(temperatures.get(i), i));
         }
 
         final LineDataSet forecastTemperatureData = new LineDataSet(forecastTemperatureDataList, getContext().getString(R.string.chart_data_legend));
@@ -135,23 +140,6 @@ public class WeatherLineChart extends LineChart {
         forecastTemperatureData.setValueFormatter(new ChartTemperatureFormatter());
 
         return forecastTemperatureData;
-    }
-
-    @Nullable
-    private ArrayList<Entry> parseForecastTemperatureToEntryList(List<WeatherResponse> weatherForecastList) {
-        final ArrayList<Entry> forecastTemperatureDataList = new ArrayList<>();
-        String tmpTemp;
-        for (int i = 0; i < Commons.CHART_NUMBER_OF_X_VALUES; i++) {
-            if (weatherForecastList.get(i).getMain() == null) {
-                return null;
-            }
-            tmpTemp = weatherForecastList.get(i).getMain().getTemp();
-            if (tmpTemp == null) {
-                return null;
-            }
-            forecastTemperatureDataList.add(new Entry(Float.parseFloat(tmpTemp), i));
-        }
-        return forecastTemperatureDataList;
     }
 
     private String getHourFormatted(final int hourShift) {
