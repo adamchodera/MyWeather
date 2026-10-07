@@ -32,6 +32,8 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.id_activity_main_tutorial_card_view)
     CardView tutorialCardView;
 
+    private FavoriteLocationsAdapter favoriteLocationsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         changeToWithLogoNavigationMode();
-        setupFavoriteLocationsAdapter();
+        setupFavoriteLocationsRecyclerView();
     }
 
     @Override
@@ -56,7 +58,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        fetchAndDisplayWeatherForFavorites();
+        refreshFavoriteLocations();
     }
 
     @Override
@@ -65,11 +67,21 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void internetIsAvailableAgain() {
-        fetchAndDisplayWeatherForFavorites();
+    protected void onDestroy() {
+        if (favoriteLocationsAdapter != null) {
+            favoriteLocationsAdapter.stopObserving();
+        }
+        super.onDestroy();
     }
 
-    private void setupFavoriteLocationsAdapter() {
+    @Override
+    protected void internetIsAvailableAgain() {
+        if (favoriteLocationsAdapter != null) {
+            favoriteLocationsAdapter.refreshWeather();
+        }
+    }
+
+    private void setupFavoriteLocationsRecyclerView() {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -81,16 +93,26 @@ public class MainActivity extends BaseActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
-    private void fetchAndDisplayWeatherForFavorites() {
-        final FavoriteLocationsAdapter favoriteLocationsAdapter = new FavoriteLocationsAdapter(this);
+    private void refreshFavoriteLocations() {
+        if (favoriteLocationsAdapter == null) {
+            favoriteLocationsAdapter = new FavoriteLocationsAdapter(this);
+            favoriteLocationsAdapter.setVisibilityListener(this::updateFavoriteLocationsVisibility);
+            recyclerView.setAdapter(favoriteLocationsAdapter);
+            favoriteLocationsAdapter.startObserving();
+        }
+        updateFavoriteLocationsVisibility();
+    }
 
+    private void updateFavoriteLocationsVisibility() {
+        if (favoriteLocationsAdapter == null) {
+            return;
+        }
         if (favoriteLocationsAdapter.getItemCount() == 0) {
             recyclerView.setVisibility(View.GONE);
             tutorialCardView.setVisibility(View.VISIBLE);
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             tutorialCardView.setVisibility(View.GONE);
-            recyclerView.setAdapter(favoriteLocationsAdapter);
         }
     }
 }

@@ -1,22 +1,19 @@
 sudo: false
+dist: jammy
 language: android
-jdk: oraclejdk8
+jdk: openjdk17
 
 before_install:
- - chmod +x gradlew
+  - chmod +x gradlew
+  - printf 'sdk.dir=%s\nOPEN_WEATHER_APP_ID=%s\n' "$ANDROID_HOME" "$OPEN_WEATHER_APP_ID" > local.properties
 
 android:
   components:
     - tools
     - platform-tools
-    - build-tools-25.0.3
-    - android-25
+    - build-tools-33.0.2
+    - android-33
     - extra-android-m2repository
-    - sys-img-armeabi-v7a-android-16
 
-before_script:
-  - echo no | android create avd --force -n test -t android-16 --abi armeabi-v7a
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - sleep 10
-  - adb shell input keyevent 82
+script:
+  - ./gradlew testDebugUnitTest assembleDebug assembleRelease

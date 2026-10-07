@@ -2,12 +2,12 @@ package pl.com.chodera.myweather;
 
 import android.app.Application;
 
-import com.crashlytics.android.Crashlytics;
 import com.squareup.leakcanary.LeakCanary;
 
-import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+
+import pl.com.chodera.myweather.model.db.FavoriteLocationMigration;
 
 public class MyWeatherApplication extends Application {
 
@@ -16,8 +16,6 @@ public class MyWeatherApplication extends Application {
         super.onCreate();
         if (BuildConfig.DEBUG) {
             startLeakCanary();
-        } else {
-            Fabric.with(this, new Crashlytics());
         }
 
         initializeRealmDatabase();
@@ -34,7 +32,10 @@ public class MyWeatherApplication extends Application {
 
     private void initializeRealmDatabase() {
         Realm.init(this);
-        final RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+        final RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
+                .schemaVersion(FavoriteLocationMigration.SCHEMA_VERSION)
+                .migration(new FavoriteLocationMigration())
+                .build();
         Realm.setDefaultConfiguration(realmConfiguration);
     }
 }
